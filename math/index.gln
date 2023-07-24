@@ -1,0 +1,13 @@
+[title|Math]
+
+[section Foundations|
+  [p|[ref doc:math/foundations/category-theory|Category Theory]]
+
+  [p|[ref doc:math/foundations/set-theory|Set Theory]]]
+
+[section Changes| ]
+
+[section Spaces|
+  [ref doc:math/spaces/metric-topological-spaces|Metric and Topological Spaces]]
+
+[section Structures|]

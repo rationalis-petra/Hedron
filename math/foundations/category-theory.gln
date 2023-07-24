@@ -1,0 +1,120 @@
+[title|Category Theory]
+
+[section Overview|]
+
+[section Introduction|
+  
+  [p|Category theory, like [ref doc:math/foundations/set-theory|set theory], can act
+  as a basis of mathematics. Category theory seeks out a purer theory of
+  functions, i.e. functions are the fundamental element of Category Theory,
+  rather than being built from sets. We can think of the distinction as follows:]
+
+  [ul|
+   [li 'Set Theory'| gives an 'element-oriented' view of mathematical
+        structures, representing different objects by piecing them together from
+        smaller objects] 
+   [li 'Category Theory'| gives a 'function-oriented' view of mathematics. It
+        understands structures by how they transform into other structures.]]
+
+  [def Category| A category consists of two elements:
+   [ul|
+    [li|A set obj C, whose elements are called C-objects.]
+    [li|For each [m|X,Y \in \text{obj C}], a set [m|C(X, Y)], whose elements
+     are called C-morphisms from [m|X] to [m|Y].]
+    [li|A function assigning to each [m|X\in \text{obj C}] an element
+     [m|id_X \in C(X, X)] called the identity morphism for the C-object [m|X].] 
+    [li|A function assigning to each [m|F\in C(X, Y)] and [m|g\in C(Y, Z)] an
+     element [m|g\circ f\in C(X, Z)] called the composition of [m|f] and [m|g]
+     satisfying:
+     [ul|
+      [li Associativity|For all [m|X, Y, Z, W \in \text{obj C}],
+       [m|f\in C(X, Y)], [m|g \in C(Y, Z)] and [m|h\in C(Z, W)], [br|]
+       [m|f\circ (g\circ h) = (f \circ g) \circ h]]
+      [li Unity|For all [m|X, Y\in \text{obj C}] and [m|f\in C(X, Y)][br|]
+       [m|id_Y \circ f = f = f \circ id_X]]]]]]
+
+  [p|For a given morphism [m|f \in C(X, Y)], we often refer to [m|X] as the
+   [i|domain] of [m|f], and [m|Y] as the [i|codomain] of [m|f], taking the names
+   from functions in set theory.]
+
+  [section 'Commutative Diagrams'|
+    [p|We can visualize a category as being something like a graph. For example,
+    consider the below image representing a category.]
+
+    [#TODO|add image]
+
+    [p|This image leaves out some key details. For example, does [m|f \circ g = h]?
+     Which of [m|p] and [m|q] is the identity for [m|a]?. To combat some of
+     these issues, we often represent (parts of) a category through [i|commutative
+     diagrams]. Commutative diagrams are similar to the diagram above, with two
+     key differences:]
+
+    [ul|
+     [li|A single object may appear at multiple locations (i.e. multiple
+      different nodes may represent the same object)]
+     [li|We make the assumption that all paths between the same nodes are
+      equal. This is where the [i|commutative] part of commutative diagrams
+      comes from.]]]
+
+
+  [section 'Alternative Notations'|
+    Not all category theorists use the same notation. Sometimes, you might see:
+    [ul|
+     [li|[m|C] instead of obj C]
+     [li|[m|id] or [m|1_X] instead of [m|id_X]]
+     [li|[m|Hom_C(X, Y)] instead of [m|C(X, Y)]]
+     [li|[m|g\: f] instead of [m|g\circ f]]]]
+
+  [section 'Examples'|
+    [ex 'Category of Sets' ,for='Category'|]
+    [ex 'Category of Preorders' ,for='Category'|]
+    [ex 'Category of Monoids' ,for='Category'|]
+    [ex 'Category given by a Preorder' ,for='Category'|]
+    [ex 'Category given by a Monoid' ,for='Category'|]]]
+
+[section 'Properties in Categories'|
+  [section Isomorphism|
+    [p|In many mathematical domains, the set-theoretic notion of equality is too
+     restrictive, so we create new ones specific to the domain. In
+     [ref doc:math/structures/groups|Group Theory], we have the idea of isomorphic
+     groups. In
+     [ref doc:math/spaces/metric-topological-spaces|Topology], we have the idea
+     of homeomorphic topologies, and so on. The [i|Isomorphism] is an attempt to
+     generalize these notions of equality. A C-morphism [m|f : X \to Y] is an
+     isomorphism if there exists some [m|g : Y \to X] such that:
+    
+     [#TODO|add image]
+    
+     is a commutative diagram. More formally, [m|f : X \to Y] is an isomorphism
+     whenever there exists some [m|g : Y \to X] with [m|g \circ f = id_X] and
+     [m|f \circ g = id_Y].]
+
+    [p|In the case where [m|f] is an isomorphism, the corresponding [m|g] must
+     be uniquely determined, and so we write [m|f^{-1}] for it. Further, we say
+     that objects [m|X] and [m|Y] are [i|isomorphic] in C, and we write
+     [m|X \cong Y].
+     ]
+
+  ]
+
+  [section Duality|]
+  [section 'Initial and Terminal Objects'|]
+  [section 'Category Products'|]
+  [section 'Exponential Objects'|]]
+
+[section 'Category Encodings'|
+  [section 'Intuitionistic Propositional Logic'|]
+  [section 'Simply Typed Lambda Calculus'|]]
+
+[section 'Moving Between Categories'|
+  [section 'Functors'|]
+  [section 'Natural Transformations'|]
+  [section 'Adjuctions'|]
+  [section 'Categoising Adjoints'|]]
+
+[section 'Dependent Types'|]
+[section 'Yoneda Lemma'|]
+[section 'Computational Lambda Calculus and Monads'|]
+
+[bib|
+ [bibref|Lectures credit: Andrew Pitts]]

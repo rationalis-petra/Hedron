@@ -1,0 +1,97 @@
+
+[title|Computation Theory]
+
+[section 'Introduction'|
+  [section 'Hilbert's Entschidungsproblem'|
+  
+    [p|In 1928, David Hilbert and Wilhelm Ackermann put forth the Entschidungsproblem
+    (meaning 'decision problem'). The problem can be stated informally follows:]
+  
+    [quote| Is there an algorithm which, when fed any statement using logic and
+      arithmetic, determines in a finite number of steps whether or not that
+      statement is provable?]
+  
+    [p|Such an algorithm would be (incredibly) useful. For example, if we provided it
+    with the following statement:]
+  
+    $$
+    \forall k > 1. \exists p, q. (2k = p + q \land prime(p) \land prime(q))
+    $$
+  
+    [p|Where [m|prime(p)] is a logical statement that $p$ is a prime number. By
+    running the algorithm on this statement, we could solve [i|Goldbach's
+    Conjecture], which when stated in English reads:]
+
+    [quote|
+      Every even integer strictly greater than two is the sum of two primes]
+
+    [p|and is a famous open problem in number theory, unsolved since it was
+    formulated in 1742.]
+  
+    [p|It is in fact surprisingly easy to get very close to solving the problem
+    above: if we assume that a proof exists, then we can find it in finite time
+    by doing a breadth-first search: start with the conclusion (in the above
+    example, Goldbach's conjecture), and generate all logical statements which
+    may have the conclusion as the 'next step' in their reasoning, then generate
+    all logical statements which would have those as their 'next step', and so
+    on. Eventually, on of the paths we explore will reach an axiom or set of
+    axioms, and can go no further, giving us the proof! However, if there is no
+    proof, then this algorithm will run forever.]
+
+    [p|One important result of computability theory is that there is no
+    (terminating) algorithm which can solve the Entschidungsproblem.]]
+
+  [section 'Halting Problem'|
+    [p|The halting problem is another famous decision problem, and can be stated quite simply: 
+    Given a pair [m|(A, D)] where [m|A] is an algorithm and [m|D] is some data
+    on which that algorithm will operate, is there an algorithm which can tell
+    us whether [m|A] will halt (i.e. finish) when provided input [m|D], or will
+    it run forever?]
+
+    [p|The halting problem is known to be false, i.e. there does not exist such
+    an algorithm. As it turns out, this useful result, as we can often prove
+    that other decision problems are unsovable because we can use them to decide
+    the halting problem. An informal proof by contradiction is sketched out
+    below, which will be expanded upon later in the course.] 
+
+    [proof ,for='Halting Problem'|Suppose that there exists an algorithm [m|H]
+    which solves the halting problem, i.e. 
+
+     [M| H(A, D) = \left\{\begin{array}{ll}
+      1 & \text{if } A(D) \text{ halts} \\
+      0 & \text{otherwise}
+      \end{array}\right.]
+
+     [p|Write [m|A(D)\downarrow] to mean that algorithm [m|A] halts on input
+      [m|D]. Now, let [m|C] be the algorithm which does the following:
+      [ol|
+       [li|Take [m|A] as input]
+       [li|Compute [m|H(A, A)]]
+       [li|If [m|H(A, A)] = 0, then output 1. Otherwise, loop forever]]
+      Thus, [m|C] halts only when it's input algorithm does not halt when run
+      on itself.]
+
+     [M|
+     \begin{aligned}
+      &\forall A. C(A)\downarrow \iff H(A, A) = 0 & (\text{since }H\text{ is total}) \\
+      &\forall A. H(A, A) = 0 \lnot A(A)\downarrow & (\text{by the definition of}H) \\
+      \implies& \forall A. C(A)\downarrow \iff \lnot A(A) \downarrow & (\text{by the above two steps}) \\
+      \implies& \forall A. A(A)\downarrow \iff \lnot A(A) \downarrow & (\text{by taking } A = C) \\
+      \implies& \bot
+     \end{aligned}]]
+    
+
+  ]
+  
+  [section 'Formalisation'|
+    [p|One key property that all the above problems have in common is that they
+    talk in some way about an algorithm or computer. However, in order for us to
+    prove things about algorithms, we need to come up with a way of speaking]]]
+    
+[section 'The Turing Machine'|]
+
+[section 'Partial Recursive Functions'|]
+
+[section 'The Lambda Calculus'|]
+
+  

@@ -1,0 +1,454 @@
+[title|Metric and Topological Spaces]
+
+
+[section 'Introduction'|
+  [section 'Prerequisites'|
+    [ul|
+      [li| [ref doc:math/changes/analysis|analysis]]]]
+
+  [#TODO| Rework the first half of the intro]
+
+  [p|In [ref doc:math/changes/analysis|analysis], real numbers are studied
+  extensively. Properties such as convergence of sequenes and continugity of
+  functions are defined. For example, if [m|(x_n)] is a sequence in
+  [m|\mathbb R, x_n \to x] means:]
+
+  [M|
+    \forall\varepsilon >0. \exists N. \forall n > N. |x_n - x| < \varepsilon]
+  
+  [p|Similarly, a function [m|f] is continuous at [m|x_0] if]
+  
+  [M|
+    \forall\varepsilon > 0. \exists \delta > 0.
+    \forall x. |x - x_0| < \delta \implies |f(x) - f(x_0)| < \varepsilon]
+
+  [p|However, the definition of convergence desn't really rely on [m|x_n] being
+  real numbers, except when calculating values of [m||x_n - x|]. But what does
+  [m||x_n - x|] really mean? It is the distance between [m|x_n] and [m|x]. To
+  define convergence, we don't really need notions like subtration and absolute
+  value. We simply need some notion of distance betwen points. ]
+
+  [p|Given a set [m|X], we can define a [i|metric] ("distance function") [m|d: X
+  \times X \to \mathbb R], where [m|d(x, y)] is the distance between points
+  [m|x] and [m|y]. Then, we say a sequence [m|(x_n)] in [m|X] converges to if:]
+
+  [M|
+    \forall \varepsilon > 0. \exists N. \forall n > N. d(x_n, x) < \varepsilon.]
+
+  [p|Similarly, a function [m|f] is continuous at [m|x_0] if]
+  
+  [M|
+    \forall\varepsilon > 0. \exists \delta > 0.
+    \forall x. d(x, x_0) < \delta \implies d(f(x), f(x_0)) < \varepsilon]
+
+  [p|For the metric [m|d] to be usable in this manner, it needs to satisfy certain
+  conditions such as being non-negative. These are explored in more detail
+  later.]
+
+  [p|As people studied metric spaces, it was found that many different metrics
+  would behave in the same manner: they would agree on what sequenes converge
+  and what functions are continuous.]
+
+  [p|It turns out that it was not the metric that determins many of these
+  properties. Instead, we can derive from a metric a something we call it's
+  [i|open sets], and it is these open sets that produce these properties -
+  metrics which induce the same open sets will have almost idendical
+  properties.]
+
+  [p|After this discovery, the idea of a topological space was born - a topological
+  space keeps the notion of open sets, and abandons the idea of a metric
+  space. This turned out to be a really good idea, and so the field of topology
+  was born.]]
+
+[section 'Metric Spaces'|
+  [section 'Definitions'|
+    [p|As mentioned in the introduction, it is often helpful to have a notion of
+    distance between to elements of some set [m|X]. This function is known as a
+    [i|metric].]
+
+    [def 'Metric Space'|A [i|metric space] is a pair [m|(X, d_X)] where [m|X] is
+      a set (the [i|space]) and [m|d_X] is a function [m|d_X: X\times X\to\mathbb R]
+      (the [i|metric]) such that for all [m|x, y, z,]
+      [ul|
+        [li 'non-negativity'| [m|d_X(x, y) \geq 0]]
+        [li 'identity of indescernibles'|[m|d_X(x, y) = 0 \iff x = y]]
+        [li 'symmetry'|[m|d_X(x, y) = d_X(y, x)]]
+        [li 'triangle inequality'|[m|d_X(x, z) \leq d_X(x, y) + d_X(y, z)]]]]
+
+    [p|We will now explore two quick examples of metrics before going into other
+    important definitions. We will come to more examples afterwards.]
+
+    [ex 'Euclidean metric' ,for='Metric Spaces'| 
+      Let [m|X=\mathbb R^n]. Let 
+
+      [M|
+        d(\mathbf v, \mathbf w)
+        = |\mathbf v - \mathbf w|
+        = \sqrt{\sum_{i=1}^n(v_i - w_i)^2}]
+
+      [#TODO| add link to the cauchy-schwarz inequality]
+
+      [p|This is the usual notion of distance we have in the [m|\mathbb R^n] vector
+      space. It is not difficult to show that this is indeed a metric (the fourth
+      axiom follows from the Cauchy-Schwarz inequality).]]
+
+    [ex 'Discrete metric' ,for='Metric Spaces'| 
+      Let [m|X] be a set, and
+      
+      [M|
+        d_X(x, y) =
+        \left\{
+        \begin{aligned}
+        1 & x \neq y \\
+        0 & x = y 
+        \end{aligned}
+        \right.]
+      
+      [p|To show ths is indeed metric, we have to show it satisfied all the
+      axioms. The first three axioms are trivially satisfied. How about the
+      fourth? We can prove this by exhaustion.]
+      
+      [p|Since the distance function can only return 0 or 1, [m|d(x, z)] can be 0 or
+      1, while [m|d(x,y)+d(y,z)] can be 0, 1 or 2. For the fourth axiom to fail,
+      we must have RHS < LHS. This can only happen if the right hand side is
+      0. But for the right hand side to be 0, we must have [m|x = y = z], so the
+      left hand side is also 0. Hence, the fourth axiom is always satisfied.]]
+
+    [p|Given a metric space [m|(X, d_X)], we can generate another metric space by
+    picking out a subset of [m|X] and reusing the same metric.]
+
+    [def 'Metric Subspace'|
+      Let [m|(X, d_X)] be a metric space, and [m|Y\subseteq X]. Then, [m|(Y,
+      d_Y)] is a metric space, where [m|d_Y(a, b) = d_X(a, b)], and said to be a
+      [i|subspace] of [m|X].]
+
+    [ex ,for='Metric Subspace'|
+      [m|S^n=\{\mathbf v\in \mathbb R^{n+1} : |\mathbf v| = 1\}], the
+      [m|n]-dimensional spehere, is a subspace of [m|\mathbb R^{n+1}]]
+
+    [p|We now revisit the definition of convergent sequences and continuous functions.]
+
+    [def 'Convergent Sequences'|
+      Let [m|(x_n)] be a sequence in a metric space [m|X, d_x]. We say [m|(x_n)]
+      [i|converges] to [m|x\in X], written [m|x_n \to x], if [m|d(x_n, x) \to
+      0]. Equivalently,
+
+      [M|
+        \forall \varepsilon > 0. \exists N. \forall n > N. d(x_n, x) < \varepsilon]]
+
+    [ex ,for='Convergent Sequences'|
+      [ul|
+        [li|Let [m|(\mathbf v_n)] be a sequence in [m|\mathbb R^k] with the
+          Euclidean metric. Write [m|\mathbf v_n = (v_n^1,\cdots,v_n^k)], and
+          [m|\mathbf v = (v^1, \cdots, v^k)\in \mathbb R^k]. Then,
+          [m|\mathbf v_n \to \mathbf v \iff (v_n^i) \to v^i] for all i.]
+        [li|Let [m|X] have the discrete metric, and suppose [m|(x_n)\to x]. Pick
+          [m|\varepsilon = \frac12]. Then, there s some [m|N] such that
+          [m|d(x_n, x) < \frac12] whenever [m|n > N]. But if [m|d(x_n, x) <
+          \frac12], we must have [m|d(x_n, x) = 0]. So [m|x_n = x]. Hence if
+          [m|(x_n) \to x], then eventually all [m|x_n] are equal to [m|x].]]]
+
+    [p|This definition of convergent sequences preserves familiar properties from
+    [ref doc:math/changes/analysis|analysis], such as the uniqueness of limits.]
+
+    [prop 'Uniqueness of Limits'|
+      If [m|(X, d)] is a metric space, and [m|(x_n)] is a sequence in [m|X] such
+      that [m|(x_n) \to x \land (x_n) \to x'], then [m|x = x'].]
+
+    [proof ,for='Uniqueness of Limits'|
+      For any [m|\varepsilon > 0], we know that there exists [m|N] such that
+      [m|d(x_n, x) < \frac\varepsilon 2] if [m|n > N]. Similarly, there exists
+      some [m|N'] such that [m|d(x_n, x') < \frac\varepsilon 2] if [m|n > n'].
+      Hence if [m|n > \max(N, N')] then
+
+      [M|
+      \begin{aligned}
+      0 &\leq d(x, x') \\
+      &\leq d(x, x_n) + d(x_n, x')\\
+      &=d(x_n, x) + d(x_n, x')\\
+      &\leq \varepsilon
+      \end{aligned}]
+
+      So [m|0 \leq d(x,x') \leq \varepsilon] for all [m|\varepsilon > 0]. So
+      [m|d(x, x') = 0], and [m|x = x'].]
+
+    [p|Note that to prove the above proposition, we used all of the four axioms. In
+    the first line, we used non-negativiy to say [m|0 \leq d(x, x')]. In the
+    second line, we used triangle inequality. In the third line, we used
+    symmetry to swap [m|d(x, x_n)] with [m|d(x_n,x)]. Finally, we used the
+    idenity of indiscernables to conclude that x = x'.]
+
+    [p|To define a continuous function, here we opt to use the sequence
+    definition. We will later show that this is indeed equivalent to the
+    [m|\varepsilon-\delta] definition, as well as a few other more useful
+    definitions.]
+
+    [def 'Conitinuous Function'| 
+     Let [m|(X, d_X)] and [m|(Y, d_Y)] be metric spaces, and [m|f:X\to Y]. We
+     say [m|f] is [i|continuous] if [m|f(x_n) \to f(x)] (in [m|Y]) whenever
+     [m|x_n\to x] (in [m|X]). ] 
+
+    [ex ,for='Continuous Function'|
+     Let [m|X=\mathbb R] with the Euclidean metric. Let [m|Y = \mathbb R] with
+     the discrete metric. Then, [m|f: X\to Y] that maps [m|f(x) = x] is not
+     continusous. This is since [m|1/n \to 0] n the Euclidean metric, but not in
+     the discrete metric.
+
+     [p|On the other hand, [m|g:Y\to X] by [m|g(x) = x] is continuous, since a
+     sequence in [m|Y] that converges is eventually constant.]]
+
+   [ex 'p-adic metric', for='Metric Spaces'|
+     [p|Let [m|p\in \mathbb Z] be a prime
+     number. First define the norm [m||n|_p] to be [m|p^{-k}], where [m|k] is
+     the highest power of [m|p] that divides [m|n]. If [m|n = 0], we let
+     [m||n|_p = 0]. For example, [m||20|_2 = |2^2\cdot 5|_2 = 2^{-2}].]
+
+     [p|Now take [m|X = \mathbb Z] and let [m|d_p(a, b) = |a - b|_p]. The first
+     three axioms are trivial, while the triangle inequality is somewhat more
+     involved (the proof involves making number-theoretic arguments about
+     divisibility).]
+
+     [p|This metric has some rather interesting properties. For example, in
+     [m|d_2], the sequence [m|1,2, 4, 8, \cdots] converges to 0, while
+     [m|1, 2, 3, 4, \cdots] does not converge! This metric is actually useful in
+     number theory as it can be used to prove certain number-theoretic results,
+     but the details won't be covered here.]]
+
+   [ex 'Uniform metric', for='Metric Spaces'| Let [[m|X = C[0, 1] ]] be the
+    set of all continuous functions on [[m|[0, 1] ]]. Then, define
+
+    [[M| d(f, g) = \max_{x\in[0, 1]} |f(x) - g(x)| ]]
+
+    [p|The maximum always exists since continuous functions on [[m| [0, 1] ]] are
+    bounded and attain their bounds.]
+
+    [p|As an example of a continuous function, let [[m|F : C[0, 1]\to\mathbb R]]
+    be defined by [m|F(f) = f(\frac12)]. This function is continuous with respect to
+    the uniform metric on [[m|C[0, 1] ]] and the usual metric on [m|\mathbb R].]
+
+    [proof|
+     Let [m|f_n\to f] in the uniform metric. Then, we have to show that
+     [m|F(f_n) \to F(f)], i.e. [m|f_n(\frac12) \to f(\frac12)]. This is easy,
+     since we have:
+
+     [M|
+      0 \leq |F(f_n) - F(f) = |f_n(\frac12) - f(\frac12)|
+      \leq \max|f_n(x) - f(x)| \to 0.]
+
+     [p|Hence, [m|f_n(\frac12) - f(\frac12)| \to 0]. So, [m|f_n(\frac 12) \to f(\frac12)].]]]]
+
+  [section 'Norms'|
+    There are several functions on vectors that are closely related to
+    metrics. Here, we'll look at [i|norms] and [i|inner products] of vectors
+    and show that they both naturally induce a metric on a vector space.
+  
+    [#TODO| finish me!]]
+
+  [section 'Open and Closed Subsets'|
+    Having completed our brief look at metric spaces, we will now look at how
+    the notion of open and closed subsets can be defined for a given metric
+    space, and investigate their properties. 
+  
+    [def 'Open and Closed Balls'| Let [m|(X, d)] be a metric space. For any [m|x
+    \in X, r \in\mathbb R], 
+    [M| B_r(x) = \{y \in \mathbb X: d(y, x) < r\}]
+    is the [i|open ball] centered at [m|x].
+    [M| \overline B_r(x) = \{y \in \mathbb X: d(y, x) \leq r\}]
+    is the [i|closed ball] centered at [m|x].]
+  
+    [ex ,for='Open and Closed Balls'| 
+     [ol|
+      [li| When [m|X = \mathbb R], [m|B_r(x) = (x - r), (x + r)] and
+       [[m|\overline B_r(x) = [x - r, x + r] ]]]
+      [li| When [m|X = \mathbb R^2],
+       [ol|
+         [li|If [m|d] is the metric induced by
+          [m|\Vert \mathbf v\Vert_1 = |v_1| + |v_2|], then an open ball
+          is a rotated square.
+          [#TODO| add image ]]
+         
+         [li|If [m|d] is the metric induced by
+          [m|\Vert \mathbf v\Vert_2 = \sqrt{v_1^2 + v_2^2}], then an open ball
+          is an actual disk.
+          [#TODO| add image ]]
+  
+         [li|If [m|d] is the metric induced by
+          [m|\Vert \mathbf v\Vert_\infty = \max\{|v_1| + |v_2|\}], then an open ball
+          is a square.
+          [#TODO| add image ]]]]]]
+  
+    [def 'Open and Closed Subsets'|
+     [p|[m|U\subseteq X] is an [i|open subset] if
+     for every [m|x \in U, \exists \delta > 0] such that [m|B_\delta (x)
+     \subseteq U].]
+  
+     [p|[m|C\subseteq X] is a [i|closed subset] if [m|X\setminus C \subseteq X] is
+     open.]]
+  
+    [lemma|The open ball [m|B_r(x) \subseteq X] is an open subset, and the closed
+     ball [m|\overline B_r(x) \subseteq X] is a closed subset]
+  
+    [proof|Given [m|y\in B_r(x)], we must find [m|\delta > 0] with
+     [m|B_\delta(y)\subseteq B_r(x)]
+  
+     [#TODO|image]
+  
+     [p|Since [m|y\in B_r(x)], we must have [m|d(y, x) < r], and so let
+     [m|\delta = r - d(y, x) > 0]. Then, if [m|z\in B_\delta(y)] we have:
+     [M| d(z, x) \leq d(z, y) + d(y, z) < (r - d(y, x)) + d(y, x) = r]
+     Hence, [m|z\in B_r(x)], and [m|B_\delta(y) \subseteq B_r(x)] as desired.]
+  
+     [p|To prove that [m|\overline B_r(x) \subseteq X] is a closed subset, we note
+     that this is equivalent to proving that [m|X\setminus\{y\in X : d(y, x) > r \}]
+     is open. The proof is very similar.]]
+  
+    [p|Note that openness is a property of a [i|subset]. [m|A \subseteq X] being
+    open depends on both [m|A] and [m|X], not just [m|A]. For example, [[m| [0,
+    \frac12)]] is not an open subset of [m|\mathbb R], but it is an open subset of
+    [[m|[0, 1] ]], both with the Euclidean metric. This is because we can
+    represent it as [m|B_{\frac12}] in the latter. However, mathematicians are
+    lazy, and so often say "open set" instead of "open subset".]
+  
+    [#TODO|finish me (Open and Closed Subsets)]]]
+    
+[section 'Topological Spaces'|
+  [p|We have previously shown that a function [m|f] is continuous iff
+  [m|f^{\leftarrow}(U)] is open whenever [m|U] is open. Convergence can similarly be
+  characterized using open sets only. This suggests that we can dump the metric
+  and focus only on the open sets. In doing so, we move from Metric spaces to
+  Topological spaces.] 
+
+  [section 'Definitions'|
+    [def 'Topological Space'|A [i|topological space] is a set [m|X] (the space)
+     together with a set [m|\mathcal U \subseteq \mathbb P(X)] (the topology)
+    such that:
+    [ol|
+     [li| [m|\emptyset, X \in \mathcal U]]
+     [li| If [m|V_\alpha \in \mathcal U] for all [m|\alpha \in A], then
+      [m|\bigcup_{\alpha\in A} V_\alpha \in \mathcal U]]
+     [li| If [m|V_1, \cdots, V_n \in \mathcal U], then
+      [m|\bigcap^n_{i=1} V_i \in \mathcal U]]]
+
+    [p|Note the difference between 2 and 3: the topology is closed under the union
+    of (potentially) [i|infinite] elements and end up with an open set, but
+    only under the intersection of [i|finitely] elements of the topology]
+
+    [p|We call the elements of [m|X] the [i|points] and the elements of
+    [m|\mathcal U] the open subsets of [m|x].]]
+
+   [def 'Induced Topology'|Let [m|(X, d)] be a metric space. Then, the topology
+    [i|induced by] [m|d] is the set of all open sets of [m|X] under d.]
+
+   [ex ,for='Induced Topology'|Let [m|X = \mathbb R^n] and consider two metrics
+    [m|d_1(\mathbf x, \mathbf y) = \Vert\mathbf x - \mathbf y\Vert_1] and 
+    [m|d_\infty (\mathbf x, \mathbf y) = \Vert\mathbf x - \mathbf y
+    \Vert_\infty]. We now show that they induce the same topology.
+
+    [p|Recall that the norms are defined by
+     [M|\Vert\mathbf v\Vert = \sum_{i=1}^n|v_i|, \quad
+        \Vert\mathbf v\Vert_\infty = \max_{1 \leq i \leq n} |v_i|]]
+
+    This implies that 
+    [M|\Vert\mathbf v\Vert_\infty \leq \Vert \mathbf v\Vert_1 \leq n\Vert\mathbf v\Vert_\infty]
+
+    This in turn implies that 
+    [M|B_r^\infty(x) \supseteq B_r^1(x) \supseteq B_{r/n}^\infty(x)]
+    [#TODO|image]
+
+    [p|To show that the metrics induce the same topology, suppose that [m|U] is
+    open with respect to [m|d_1], and we show that it is open with respect to
+    [m|d_\infty]. Let [m|x\in U]. Since [m|U] is open with respect to [m|d_1],
+    there exists some [m|\delta > 0] such that [m|B_\delta^1(x) \subseteq U]. So
+    [m|B_{\delta/n}^\infty(x) \subseteq B_\delta^1(x) \subseteq U]. So, [m|U] is
+    open with respect to [m|d_\infty]. The other direction can be shown with an
+    analogous argument]]
+
+   [ex ,for='Induced Topology'|
+    Let [[m|X = C[0, 1] ]]. Let [m|d_1(f, g) = \Vert f - g\Vert_1] and
+    [m|d_\infty(f, g) = \Vert f - g\Vert_\infty]. Then, they do not induce the
+    same topologies, since [m|(X, d_1) \to (X, d_\infty)] by [m|f \mapsto f] is
+    not continuous.]
+
+   [ex ,for='Induced Topology'|
+    It is also possible to define topologies that are not induced by metrics.
+    [#TODO| the above statement is true, but some of the topologies below are
+     induced by metrics!]
+
+    [p|Let [m|X] be any set. Then, we can define the following topologies:]
+    [ul| 
+     [li| [m|\mathcal U = \{\emptyset, X\}] is the [i|coarse topology] on [m|X]] 
+     [li| [m|\mathcal U = \mathcal P(X)] is the [i|discrete topology] on [m|X],
+      as it is induced by the discrete metric.]
+     [li| [m|\mathcal U = \{A \subseteq X \mid (X \setminus A)\text{ is finite or }A
+    = \emptyset\}] is the [i|cofinite topology] on [m|X]]]
+
+    [p|Let [m|X = \mathbb R] and [m|\mathcal U = \{(a, \infty) \mid a \in
+    \mathbb R\}] is the [i|right order topology] on [m|\mathbb R].]]
+
+  [p|We are now ready to redefine continuous functions in terms of topology only.]
+
+  [def 'Continuous Functions'|Let [m|f : X \to Y] by a map of topological
+    spaces. Then, [m|f] is [i|continuous] only if [m|f^\leftarrow(U)] being open in
+    [m|X] is implied by [m|U] being open in [m|Y].]
+
+  [p|When the topologies are induced by metrics, the topological and metric
+  notions of continuous functions coincide, as we showed in the previous
+  chapter.]
+
+  [ex ,for='Continuous Function'|
+   [ul|
+    [li|Any function [m|f : X \to Y] is continuous if [m|X] has the discrete
+     topology.]
+    [li|Any function [m|f : X \to Y] is continuous if [m|Y] has the coarse topology.]
+    [li|If [m|X] and [m|Y] both have cofinite topology, then [m|f : X \to Y] is
+     continuous iff [m|f^\leftarrow(\{y\})] is finite for every [m|y \in Y]]]]
+
+  [lemma|If [m|f:X \to Y] and [m|g:Y\to Z] are continuous, then so is
+   [m|g\circ f:X \to Z].]
+  [proof|If [m|U\subseteq Z] is open and [m|g] is continuous then
+   [m|g^\leftarrow(U)] is open in [m|Y]. Since [m|f] is also continuous,
+   [m|f^\leftarrow(g^\leftarrow(U)) = (g \circ f)^\leftarrow (U)] is open in [m|X].]
+
+  [p|In many theories, the set-theoretic notion of element-based equality is
+   insufficient, and we require something more general. For example, in
+   [ref doc:math/structures/groups|group theory], there was the notion of
+   isomorphism, where two groups are isomorphic if we can 'rename' elements of
+   one group to make the two equal. Isomorphic groups are essentially the same
+   for any interesting group-theoretic property. ]
+
+  [p|There exists a similar notion in topology: the [i|homeomorphism]. If two
+   topologies are homeomorphic, we consider them to be the same.]
+
+  [def Homeomorphism| [m|f : X\ to Y] is a [i|homeomorphism] if:
+    [ol|
+     [li|[m|f] is a bijection]
+     [li|Both [m|f] and [m|f^{-1}] are continuous]]
+
+    [p|Equivalently, [m|f] is a homeomorphism if it is a bijection and [m|U
+    \subseteq X] is open iff [m|f(U) \subseteq Y] is open.]
+
+    [p|Two spaces are said to me [i|homeomorphic] if there exists a homeomorphism
+     between them, and we write [m|X \simeq Y].]]
+
+  ]
+
+  [section 'Sequences'|]
+  [section 'Closed Sets'|]
+  [section 'Closure and Interior'|]
+  [section 'Constructing Topologies'|]]
+
+[section 'Connectivity'|
+  [section 'Connectivity'|]
+  [section 'Path Connectivity'|]
+  [section 'Components'|]]
+
+[section 'Compactness'|
+  [section 'Compactness'|]
+  [section 'Products and Quotients'|]
+  [section 'Sequential Compactness'|]
+  [section 'Completeness'|]]
+
+
+[bib|
+  [bibref|Based on Notes taken by Dexter Chua]
+  [bibref|Based on lectures by J. Rasmussen]] 
