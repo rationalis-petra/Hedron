@@ -6,4 +6,8 @@
 [section Engineering|]
 
 [section Theoretical|
-  [ref doc:theoretical/computation|Computation Theory]]
+  [ul|
+   [li|[ref doc:computing/theoretical/algorithms|Algorithms]]
+   [li|[ref doc:computing/theoretical/computation|Computation Theory]]
+   [li|[ref doc:computing/theoretical/semantics|Semantics of Programming Languages]]
+   [li|[ref doc:computing/theoretical/type-theory|Type Theory]]]]

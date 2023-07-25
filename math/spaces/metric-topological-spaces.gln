@@ -428,9 +428,7 @@
     \subseteq X] is open iff [m|f(U) \subseteq Y] is open.]
 
     [p|Two spaces are said to me [i|homeomorphic] if there exists a homeomorphism
-     between them, and we write [m|X \simeq Y].]]
-
-  ]
+     between them, and we write [m|X \simeq Y].]]]
 
   [section 'Sequences'|]
   [section 'Closed Sets'|]

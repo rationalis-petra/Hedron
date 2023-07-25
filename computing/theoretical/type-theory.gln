@@ -1,0 +1,90 @@
+[title|Type Theory]
+
+[section Introduction|
+  [p|This page is a follow-up to the [ref doc:computing/theoretical/semantics
+  |Semantics of programming Languages] page, and so it would help to be familiar
+  with the concepts of that page.] 
+
+  [p|Types form an important link between theoretical computer science and
+   practical language design. Types have many uses, including:]
+  [ul|
+   [li Structure|Types provide support for structuring large (or even medium) size programs]
+   [li Documentation|Types provide a description of how a function/object etc.
+    can be interacted with.]
+   [li Efficiency|Types can be used for various kinds of optimisation, e.g. we
+    can reduce [m|n \times 2] to the more efficient [m|n + n] if we know that
+    [m|n] is an integer.]
+   [li Safety|Types are used to prevent 'bad' program behaviour (related to
+    error checking).]]
+  ]
+
+[section 'The Simply Typed Lambda Calculus'|
+  [section 'Definition and Proofs'|]
+  [section 'The Curry-Howard Correspondance'|]
+  [section 'Extensions to the STLC'|] ]
+
+
+[section 'System F'|
+  [section 'Definitions'|
+    [p|System F, alternatively known as the Girard-Reynolds Polymorphic Lambda
+     Calculus, is a strictly more powerful version of the Simply-Typed lambda
+     calculus.]
+
+    [p|For the terms in System F, we have:]
+    [p|
+     Types: [m|A \triangleq \alpha \mid A \to A \mid \forall \alpha. A] [br|]
+     Terms: [m|e \triangleq x \mid \lambda x : A. e \mid e\: e\mid
+               \Lambda \alpha. e\mid e\: A] [br|]
+
+     Type Contexts: [m|\Theta \triangleq \cdot \mid \Theta, \alpha][br|]
+     Term Contexts: [m|\Gamma \triangleq \cdot \mid \Gamma, x : A][br|] ]
+
+    [p|We also have three different judgements:]
+
+    [table|
+      [row|[tv|[b|Judgement]] [tv|[b|Notation]]]
+      [row|[tv|Well-formedness of type]
+           [tv|[m|\theta \vdash A \text{ type}]]]
+      [row|[tv|Well-formedness of term contexts]
+           [tv|[m|\Theta \vdash \Gamma \text{ ctx}]]]
+      [row|[tv|Term typing] [tv|[m|\Theta, \Gamma \vdash e : A]]]]
+
+    [def 'Well Formed Type'|
+     [M| \begin{prooftree}
+         \AxiomC{$\alpha \in \Theta$}
+         \UnaryInfC{$\Theta \vdash \alpha \text{ type}$}
+         \end{prooftree}
+         \qquad
+         \begin{prooftree}
+         \AxiomC{$\Theta \vdash A \text{ type}$}
+         \AxiomC{$\Theta \vdash B \text{ type}$}
+         \BinaryInfC{$\Theta \vdash A \to B \text{ type}$}
+         \end{prooftree}
+         \qquad
+         \begin{prooftree}
+         \AxiomC{$\Theta,\alpha \vdash A \text{ type}$}
+         \UnaryInfC{$\Theta \vdash \forall \alpha. A \text{ type}$}
+         \end{prooftree}]]
+
+    [def 'Well Formed Term Context'|
+     [M| \begin{prooftree}
+         \AxiomC{}
+         \UnaryInfC{$\Theta \vdash \cdot \text{ ctx}$}
+         \end{prooftree}
+         \qquad
+         \begin{prooftree}
+         \AxiomC{$\Theta \vdash \Gamma \text{ ctx}$}
+         \AxiomC{$\Theta \vdash A \text{ type}$}
+         \BinaryInfC{$\Theta \vdash \Gamma,x:A \text{ ctx}$}
+         \end{prooftree}]]
+
+    [def 'Term Typing'|]
+    [def 'Operational Semantics'|]
+  ]
+]
+
+[section 'Programming with Effects'|]
+
+[section 'Continuations and Classical Logic'|]
+
+[section 'Dependent Types'|]
