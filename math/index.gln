@@ -3,11 +3,53 @@
 [section Foundations|
   [p|[ref doc:math/foundations/category-theory|Category Theory]]
 
-  [p|[ref doc:math/foundations/set-theory|Set Theory]]]
+  [p|[ref doc:math/foundations/set-theory|Numbers and Sets]
 
-[section Changes| ]
+]]
+
+[section Changes|
+  [p|Differential Equations]
+  [p|Analysis I]
+  [p|Analysis II]
+  [p|Vector Calculus]
+  [p|Integrable Systems]
+  [p|Numerical Analysis]
+  [p|Complex Analysis]
+  [p|]
+  [p|]
+  ]
 
 [section Spaces|
-  [ref doc:math/spaces/metric-topological-spaces|Metric and Topological Spaces]]
+  [ref doc:math/spaces/metric-topological-spaces|Metric and Topological Spaces]
+  [p|Algebraic Topology]
+  [p|Geometry]
+  [p|]
+  [p|]
+  [p|]
 
-[section Structures|]
+]
+
+[section Structures|
+  [p|[ref doc:math/structures/groups|Groups]]
+  [p|Vectors and Matrices]
+  [p|Groups, Rings and Modules]
+  [p|Galois Theory]
+  [p|]
+  [p|]
+  [p|]
+  [p|]
+  [p|]
+  [p|]
+]
+
+[section Applied|
+  [p|Probability]
+  [p|Statistics]
+  [p|Dynamics and Relativity]
+  [p|Quantum Mechanics]
+  [p|Electromagnetism]
+  [p|Optimisation]
+  [p|]
+  [p|]
+  [p|]
+]

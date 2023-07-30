@@ -1,0 +1,20 @@
+[title|Math Glossary]
+
+[section Binary Operations|
+  [p|Properties of binary operations]
+
+  [def Commutative|]
+  [def Associative|]]
+
+
+[section Binary Relations|
+  [def 'Equivalence Relation'|
+   A Binary Relation [m|~] is said to be an [i|equivalence relation] when it is:
+   [ol|
+    [li Reflexive|For any [m|x], [m|x\sim x]]
+    [li Symmetric|For any [m|x, y], [m|x\sim y \implies y\sim x]]
+    [li Transitive|For any [m|x, y,z], [m|x\sim y\land y\sim z\implies x\sim z]]]]
+
+  [def 'Preorder'|]
+  [def 'Partial Order'|]
+  [def 'Total Order'|]]

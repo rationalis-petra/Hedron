@@ -1,0 +1,16 @@
+[title|Classical Logic]
+
+
+[section Continuations|
+  [p|
+  Inconsistency of Dependent types in the presence of classical logic:
+  [ref http://pauillac.inria.fr/~herbelin/articles/tlca-Her05-callcc-sigma-types.pdf|
+   paper on the inconsistency of dependent types]]
+
+  [p|
+  [ref https://dl.acm.org/doi/fullHtml/10.1145/3230625#Bib0017|
+   paper on adding classical logic to dependent types]]
+]
+
+
+[section Concurrency|]

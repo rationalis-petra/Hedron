@@ -1,5 +1,7 @@
 [title|Type Theory]
 
+[!|[tags| Notes]!]
+
 [section Introduction|
   [p|This page is a follow-up to the [ref doc:computing/theoretical/semantics
   |Semantics of programming Languages] page, and so it would help to be familiar
@@ -18,6 +20,7 @@
     error checking).]]
   ]
 
+
 [section 'The Simply Typed Lambda Calculus'|
   [section 'Definition and Proofs'|]
   [section 'The Curry-Howard Correspondance'|]
@@ -25,6 +28,24 @@
 
 
 [section 'System F'|
+  [section 'Motivation'|
+    [p|Recall from earlier when we encoded the booleans in the Simply Typed Lambda Calculus:]
+
+    [code none|
+     choose ≜ λ b:Bool. λx:1. λy:1.
+      case b
+        (L a → x)
+        (R b → y)]
+
+    [p|This function has type [m|Bool \to 1 \to 1], and is rather useless -
+     always returning [m|\langle\rangle]. However, we could swap the types
+     around, e.g. swap the types of [m|x] and [m|y] for Bool. This is more
+     useful because we can then write, e.g. [m|not \triangleq \lambda
+     b:\text{Bool}. \text{choose}\: b\: false\: true]. In general, we can swap
+     the types of [m|x] and [m|y] for any type A, and the function will still
+     type-check.]
+
+    ]
   [section 'Definitions'|
     [p|System F, alternatively known as the Girard-Reynolds Polymorphic Lambda
      Calculus, is a strictly more powerful version of the Simply-Typed lambda
@@ -78,13 +99,96 @@
          \BinaryInfC{$\Theta \vdash \Gamma,x:A \text{ ctx}$}
          \end{prooftree}]]
 
-    [def 'Term Typing'|]
-    [def 'Operational Semantics'|]
-  ]
-]
+    [def 'Term Typing'|
+     [[M| \begin{array}{c}
+         \begin{prooftree}
+         \AxiomC{$x:A\in\Gamma$}
+         \RightLabel{(var)}\UnaryInfC{$\Theta; \Gamma \vdash x : A$}
+         \end{prooftree}
+
+         \\ \\
+
+         \begin{prooftree}
+         \AxiomC{$\Theta\vdash A \text{ type}$}
+         \AxiomC{$\Theta;\Gamma,x:A\vdash e:B$}
+         \RightLabel{(fun)}\BinaryInfC{$\Theta; \Gamma \vdash \lambda x :A.e : A \to B$}
+         \end{prooftree}
+         \qquad
+         \begin{prooftree}
+         \AxiomC{$\Theta\vdash e_1 A\to B$}
+         \AxiomC{$\Theta;\Gamma\vdash e_2:A$}
+         \RightLabel{(app)}\BinaryInfC{$\Theta; \Gamma \vdash e_1\: e_2 : B$}
+         \end{prooftree}
+
+         \\ \\
+
+         \begin{prooftree}
+         \AxiomC{$\Theta, \alpha;\Gamma \vdash e : B$}
+         \RightLabel{(gen)}
+         \UnaryInfC{$\Theta;\Gamma\vdash\Lambda\alpha . e: \forall\alpha.B$}
+         \end{prooftree}
+         \qquad
+         \begin{prooftree}
+         \AxiomC{$\Theta; \Gamma \vdash e : \forall\alpha.B$}
+         \AxiomC{$\Theta \vdash A \text{ type}$}
+         \RightLabel{(gen)}
+         \BinaryInfC{$\Theta;\Gamma\vdash e\: A : [A/\alpha]B$}
+         \end{prooftree}
+         \end{array}
+
+         ]]]
+    [def 'Operational Semantics'|]]
+  [section 'Church Encodings'|]]
 
 [section 'Programming with Effects'|]
 
-[section 'Continuations and Classical Logic'|]
+[section 'Continuations and Classical Logic'|
+  [section 'Classical Logic'|]
+  [section 'Direct Translation'|]
+  [section 'Continuations'|
+
+   [p|The typing rule of continuations do not make it at all obvious how they
+    work, so we'll try and understand them intuitively. In essence,
+    continuations represent 'proof by contradiction through time-travel'. Let's
+    dig into what this means.]
+
+   [p|The first term, [m|\text{letcont } u:\lnot X. e], has the following typing
+    rule:]
+
+   [M| \begin{prooftree}
+       \AxiomC{$\Gamma,u:\lnot X\vdash e: E$}
+       \UnaryInfC{$\text{letcont u}:\lnot X.e : X$}
+       \end{prooftree}]
+
+   [p|Let's think about what this rule is saying: Let's assume [m|\lnot X] (in the
+    form of [m|u]. If we can then prove that [m|X] holds, we have a
+    contradiction, and so [m|\lnot X] must be false, i.e. [m|X] must be true.]
+
+   [p|The second term, [m|throw_Y(e,e')] has the following typing rule:]
+
+   [M| \begin{prooftree}
+       \AxiomC{$\Gamma\vdash e: X$}
+       \AxiomC{$\Gamma\vdash e':\lnot X$}
+       \BinaryInfC{$\text{throw}_Y(e,e') : Y$}
+       \end{prooftree}]
+
+   [p|This is the 'principle of explosion': if we can derive both [m|X] and
+    [m|\lnot X], then can derive any statement. This is relatively easy to show:
+    suppose that both [m|X] and [m|\lnot X] are true, and we prove that 'Unicorns
+    exist': First, form the statement [m|X\lor \text{'unicorns exist'}]. This
+    must be true because [m|X] is true. Now, we use the fact that [m|\lnot X] is
+    true to eliminate the LHS - if [m|X\lor \text{'unicorns exist'}] is true but
+    [m|X] is false, then clearly unicorns exist! We can use the same strategy to
+    derive any statement.]
+    
+
+   [p|This may seem confusing at first: it makes sense that
+    [m|\text{throw}_Y(e,e')] can have any type from a logic perspective, but 
+    what about a computational perspective - what value does it evaluate to? The
+    short answer is: it doesn't! We'll now look at an informal overview of the
+    semantics to see how [m|letcont] and [m|throw] work.]
+
+]]
+
 
 [section 'Dependent Types'|]

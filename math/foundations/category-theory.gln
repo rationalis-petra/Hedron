@@ -41,10 +41,33 @@
     [p|We can visualize a category as being something like a graph. For example,
     consider the below image representing a category.]
 
-    [#TODO|add image]
+    [[render dot|
+      digraph G {
+        bgcolor="transparent";
+        node [color="#a8a7ab" fontcolor="#a8a7ab"];
+        edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+        graph [layout=neato];
+
+        A [shape=circle pos="0,0!"];
+        B [shape=circle pos="1,1!"];
+        C [shape=circle pos="4,0!"];
+        D [shape=circle pos="1,-1!"];
+        E [shape=circle pos="3,-1!"];
+        
+        A:sw -> A:nw [label=q];
+        A:sw -> A:nw [label=p];
+        A -> B  [label=f];
+        B -> C  [label=g];
+        A -> C  [label=h];
+        A -> C  [label=i];
+        A -> D [label=j];
+        E:sw -> D:se  [label=k];
+        E:nw -> D:ne  [label=l];
+      
+      }]]
 
     [p|This image leaves out some key details. For example, does [m|f \circ g = h]?
-     Which of [m|p] and [m|q] is the identity for [m|a]?. To combat some of
+     Which of [m|p] and [m|q] is the identity for [m|A]?. To combat some of
      these issues, we often represent (parts of) a category through [i|commutative
      diagrams]. Commutative diagrams are similar to the diagram above, with two
      key differences:]
@@ -54,7 +77,53 @@
       different nodes may represent the same object)]
      [li|We make the assumption that all paths between the same nodes are
       equal. This is where the [i|commutative] part of commutative diagrams
-      comes from.]]]
+      comes from.]]
+
+    [ex|This diagram is guaranteed to be commutative, although note that we left
+     the morphism corresponding to [m|g\circ f] out of the diagram. 
+
+     [[render dot|
+      digraph G {
+        bgcolor="transparent";
+        node [color="#a8a7ab" fontcolor="#a8a7ab"];
+        edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+        graph [layout=neato];
+        
+        X [shape=none,pos="0,1.5!"];
+        Y1 [label=Y shape=none pos="1.5,1.5!"];
+        Y2 [label=Y shape=none pos="1.5,0!"];
+        Z [shape=none pos="3,0!"];
+        
+        X -> Y1  [label=f];
+        X -> Y2  [label=f];
+        Y1 -> Y2 [label=idY];
+        Y1 -> Z  [label=g];
+        Y2 -> Z  [label=g];
+      
+      }]]]
+
+    [ex|This diagram is commutative, only if [m|a= h\circ g] and [m|b=h\circ
+    g\circ f].
+
+     [[render dot|
+      digraph G {
+        bgcolor="transparent";
+        node [color="#a8a7ab" fontcolor="#a8a7ab"];
+        edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+        graph [layout=neato];
+        
+        X [shape=none,pos="0,1.5!"];
+        Y [shape=none pos="0,0!"];
+        Z [shape=none pos="1.5,0!"];
+        W [shape=none pos="1.5,1.5!"];
+        
+        X -> Y [label=f];
+        Y -> Z [label=g];
+        Z -> W [label=h];
+        Y -> W [label=a];
+        X -> W [label=b];
+      
+      }]]]]
 
 
   [section 'Alternative Notations'|
@@ -81,24 +150,61 @@
      [ref doc:math/spaces/metric-topological-spaces|Topology], we have the idea
      of homeomorphic topologies, and so on. The [i|Isomorphism] is an attempt to
      generalize these notions of equality. A C-morphism [m|f : X \to Y] is an
-     isomorphism if there exists some [m|g : Y \to X] such that:
+     isomorphism if there exists some [m|g : Y \to X] such that:]
     
-     [#TODO|add image]
-    
-     is a commutative diagram. More formally, [m|f : X \to Y] is an isomorphism
-     whenever there exists some [m|g : Y \to X] with [m|g \circ f = id_X] and
-     [m|f \circ g = id_Y].]
+    [[render dot|
+     digraph G {
+       bgcolor="transparent";
+       node [color="#a8a7ab" fontcolor="#a8a7ab"];
+       edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+       graph [layout=neato];
+       
+       X1 [label=X shape=none,pos="0,1.5!"];
+       X2 [label=X shape=none pos="1.5,0!"];
+       Y1 [label=Y shape=none pos="1.5,1.5!"];
+       Y2 [label=Y shape=none pos="3,0!"];
+       
+       X1 -> Y1 [label=f];
+       X2 -> Y2 [label=f];
+       Y1 -> X2 [label=g];
+       X1 -> X2 [label=idX];
+       Y1 -> Y2 [label=idY];
+     }]]
+     [p|is a commutative diagram. More formally, [m|f : X \to Y] is an isomorphism
+      whenever there exists some [m|g : Y \to X] with [m|g \circ f = id_X] and
+      [m|f \circ g = id_Y].]
 
-    [p|In the case where [m|f] is an isomorphism, the corresponding [m|g] must
-     be uniquely determined, and so we write [m|f^{-1}] for it. Further, we say
-     that objects [m|X] and [m|Y] are [i|isomorphic] in C, and we write
-     [m|X \cong Y].
-     ]
+     [lemma 'Uniqueness of Inverses'|In the case where [m|f] is an isomorphism,
+      the corresponding [m|g] is uniquely determined, and so we write [m|f^{-1}]
+      for it. Further, we say that objects [m|X] and [m|Y] are [i|isomorphic] in
+      C, and we write [m|X \cong Y].
 
-  ]
+      [proof|Suppose we have some [m|g, g'] for which both [m|g] and [m|g'] are
+      inverses of [m|f]. Then,
 
+      [M|
+      \begin{aligned}
+      g
+      &= g \circ id \\
+      &= (g \circ f) \circ g' \\
+      &= id \circ g'
+      &= g'
+      \end{aligned}]]]
+
+     [p|We now follow to investigate the structure of isomorphisms in our
+      example categories.]
+
+     [ex 'Set Isomorphism'|]
+
+     [ex 'Monoid Isomorphisms'|]
+
+     [ex 'Poet Isomorphisms'|]]
+
+  [section 'Initial and Terminal Objects'|
+    [def 'Terminal Object'|]
+    [def 'Terminal Object'|]
+    ]
   [section Duality|]
-  [section 'Initial and Terminal Objects'|]
   [section 'Category Products'|]
   [section 'Exponential Objects'|]]
 

@@ -1,4 +1,4 @@
 (document
   (name index)
   (public-name hedron)
-  (libraries math computing physics))
+  (subcomponents math computing physics))

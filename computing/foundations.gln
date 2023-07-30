@@ -1,0 +1,35 @@
+[title|Foundations of Computer Science]
+
+[section Prelude|
+ [p|This article is is intended as a learning aid for people who are either
+  beginner programmers, or beginner functional programmers, although the latter
+  kind may find some parts rather slow.]
+
+ [p|The programming in this course is based on the language Glyph, which is a
+  functional langauge. Functional programs tend to be shorter and easier to
+  understand for new programmers, but may feel somewhat strange for those who
+  have programmed in more "traidtional" imperative languages]
+
+ [#TODO|credit/attribution]]
+
+[section Introduction|
+ [p|A fundamental concept in computing is the idea of [i|abstraction].
+  Abstraction is the process of 'hiding' details of how something works, and
+  presenting instead a model describing what something does. For example, take
+  the process of sending an email. 
+  [ul|
+   [li|At the 'highest' level of abstraction is you. ]
+   [li|]
+   [li|]
+   [li|]
+   ]
+]]
+
+
+[section Lists|]
+
+[section Trees|]
+
+[section Functions as Values|]
+
+[section Procedural Programming|]
