@@ -1,4 +1,0 @@
-(document
-  (name index)
-  (public-name hedron)
-  (subcomponents math computing physics))

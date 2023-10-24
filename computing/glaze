@@ -1,5 +1,0 @@
-
-(document
-  (name index)
-  (public-name computing)
-  (subcomponents application engineering theoretical))

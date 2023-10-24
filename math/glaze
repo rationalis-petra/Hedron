@@ -1,5 +1,0 @@
-
-(document
-  (name index)
-  (public-name math)
-  (subcomponents changes foundations spaces structures))
