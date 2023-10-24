@@ -1,0 +1,60 @@
+
+a {
+    color: #83accc;
+    text-decoration: none;
+}
+
+body {
+    position: relative;
+    width: 50%;
+    left: 25%;
+    color: #a8a7ab;
+    background-color: #212025;
+}
+
+table {
+    border-style: solid none;
+    border-color: #83accc;
+    border-width: 2px;
+    border-collapse: collapse;
+    margin: 20px;
+}
+
+td {
+    padding: 2px 10px;
+}
+
+.quote {
+    position: relative;
+    left: 5%;
+    color: #929096;
+}
+
+.tag {
+    color: #aa4040;
+}
+
+.paragraph {
+    margin: 1em 0em;
+}
+
+/* Scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #313035;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #a8a7ab;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

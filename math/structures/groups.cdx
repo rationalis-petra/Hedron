@@ -1,0 +1,84 @@
+[title|Groups]
+
+
+[section 'Introduction'|
+  Group theory is part of a large branch of mathematics known as [i|algebra]. In
+  mathematics, algebra refers to a more general idea than replacing numbers with
+  letters. In algebra, we have some set of objects and some set of operations
+  which are defined on those objects. For example, we get get a simple versio of
+  'traditional' algebra by taking our set of objects to be [m|\mathbb R], and
+  our set of 'operations' to be [m|+] and [m|-]. Another (perfectly valid)
+  algebra might be an algebra of diagrams: elements of the algebra would be
+  gruops of shapes (forming a diagram), and operations might place shapes next
+  to (or on top of) each other. We could write equations like:
+
+  [#TODO| diagrams example]
+
+  Unfortunately, this definition of algebra is not very useful, as it is very
+  unspecific. Instead, we look at different categorise algebras into different
+  types, where each type is specified by a set of [i|axioms]. The group axioms,
+  for example, are collection of properties a set and operation must have to be
+  considered a group. There are different sets of axioms for other algebraic
+  structures such as rings and modules.
+  
+]
+
+
+[section 'Groups and Homomorphisms'|
+  [def Group|A [i|group] is a set [m|G] together with a binary operation
+   [m|\cdot] satisfying the following axioms:
+   [ol|
+    [li Identity|There exists some [m|e\in G] such that for all a, we have
+     [M|e\cdot e = e\cdot a = a]]
+    [li Inverse|For all [m|A\in G], there is some [m|a^{-1} \in G] such that
+     [M|a\cdot a^{-1} = a^{-1}\cdot a = e]]
+    [li Associativity|For all [m|a,b,c\in G], we have
+     [M|(a\cdot b) \cdot c = a\cdot (b \cdot c)]]]]
+
+
+  [p|Some people also talk about a 'zeroth' axiom: [i|closure]:
+   [ul|
+    [li|For all [m|a,b\in G], we have [m|a\cdot b \in G]]]]
+
+  [p|This axiom is not necessary, as closure is implied by the fact that
+   [m|\cdot] is a binary operation. However, making this an 'axiom' can serve as
+   a useful reminder that it is often necessary to check that closure actually
+   holds. For example, suppose we want to check whether the set of matrices of
+   the form
+
+   [M|
+   \begin{bmatrix}
+   1 & x & y \\ 0 & 1 & z \\ 0 & 0 & 1
+   \end{bmatrix}]
+
+   with [m|\cdot] denoting matrix multiplication form a group. In this case, we
+   actually need to make sure that the set is closed under matrix multiplicatio.
+   Officially, we are checking whether matrix multiplication is actually a
+   binary operation for our set.]
+
+  [p| ]
+]
+
+[section 'Symmetric Group I'|]
+
+[section 'Lagrange's Theorem'|]
+
+[section 'Quotient Groups'|]
+
+[section 'Group Actions'|]
+
+[section 'Symmetric Groups II'|]
+
+[section 'Quaternions'|]
+
+[section 'Matrix Groups'|]
+
+[section 'More on Regular Polyhetra'|]
+
+[section 'Möbius Group'|]
+
+[section 'Projective Line'|]
+
+[section 'Successors'|
+  If you are interested in learning more about groups, you can read the page on
+  [ref doc:math/structures/groups-rings-modules|Groups, Rings and Modules].]

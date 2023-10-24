@@ -1,0 +1,48 @@
+[title|Computing]
+
+[!|[tags|Index]!]
+
+[section Fundamentals|
+ [ul|
+  [li|[ref doc:computing/foundations|Foundations of Computer Science]]]]
+
+
+[section Application|
+  [ul|
+   [li|[ref doc:computing/applications/databases|Databases]]
+   [li|Graphics]
+   [li|Machine Learning]
+   [li|Data Science]
+   [li|Artificial Intelligence]
+   [li|Bioinformatics]
+   [li|Simulation]
+   [li|Computer Vision]
+   [li|Machine Learingin and Bayesian Inference]]]
+
+[section Engineering|
+  [ul|
+   [li|Digital Electronics]
+   [li|Computer Design]
+   [li|ECAD and Computer Architecture]
+   [li|Operating Systems]
+   [li|Security Engineering]
+
+   [li|Concurrent Systems]
+   [li|Distributed Systems]
+   [li|[ref doc:computing/engineering/compilers |Compiler Construction]]
+   [li|Computer Networking]
+
+   [li|Comparative Architectures]
+   [li|Cryptography]
+   [li|Optimising Compilers]]]
+
+[section Theoretical|
+  [ul|
+   [li|[ref doc:computing/theoretical/algorithms|Algorithms]]
+   [li|[ref doc:computing/theoretical/computation|Computation Theory]]
+   [li|[ref doc:computing/theoretical/semantics|Semantics of Programming Languages]]
+   [li|[ref doc:computing/theoretical/type-theory|Type Theory]]
+   [li|[ref doc:computing/theoretical/type-theory/index|Advanced Type Theory]]
+   ]]
+
+[section Mathematics|]

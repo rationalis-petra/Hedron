@@ -1,0 +1,20 @@
+[title 'Dependent Types'|]
+
+[section 'Type Constructors'|
+ [section 'Dependent Product'|]
+ [section 'Dependent Sum'|]
+ [section 'Dependent Intersection'|]
+
+
+ [section 'Very Dependent Functions'|
+  [p|A very dependent function type is one where the output type of a function
+  depends not just on the value of the input (as with regular dependent
+  functions), but also on the value of the function itself.]
+
+  [see [ref:
+  https://citeseerx.ist.psu.edu/document?repid=rep1&type=pdf&doi=cdd752a7127dfd476b65465a36b4feafb7cca44d|this
+  paper], which uses the very dependent function type to encode objects.]]]
+
+[section 'Custom Types'|
+ [section 'Induction-Induction'|]
+ [section 'Induction-Recursion'|]]

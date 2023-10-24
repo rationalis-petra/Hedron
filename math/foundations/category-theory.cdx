@@ -1,0 +1,569 @@
+[title|Category Theory]
+
+[section Overview|]
+
+[section Introduction|
+  
+  [p|Category theory, like [ref doc:math/foundations/set-theory|set theory], can act
+  as a basis of mathematics. Category theory seeks out a purer theory of
+  functions, i.e. functions are the fundamental element of Category Theory,
+  rather than being built from sets. We can think of the distinction as follows:]
+
+  [ul|
+   [li 'Set Theory'| gives an 'element-oriented' view of mathematical
+        structures, representing different objects by piecing them together from
+        smaller objects] 
+   [li 'Category Theory'| gives a 'function-oriented' view of mathematics. It
+        understands structures by how they transform into other structures.]]
+
+  [def Category| A category consists of two elements:
+   [ul|
+    [li|A set obj C, whose elements are called C-objects.]
+    [li|For each [m|X,Y \in \text{obj C}], a set [m|C(X, Y)], whose elements
+     are called C-morphisms from [m|X] to [m|Y].]
+    [li|A function assigning to each [m|X\in \text{obj C}] an element
+     [m|id_X \in C(X, X)] called the identity morphism for the C-object [m|X].] 
+    [li|A function assigning to each [m|F\in C(X, Y)] and [m|g\in C(Y, Z)] an
+     element [m|g\circ f\in C(X, Z)] called the composition of [m|f] and [m|g]
+     satisfying:
+     [ul|
+      [li Associativity|For all [m|X, Y, Z, W \in \text{obj C}],
+       [m|f\in C(X, Y)], [m|g \in C(Y, Z)] and [m|h\in C(Z, W)], [br|]
+       [m|f\circ (g\circ h) = (f \circ g) \circ h]]
+      [li Unity|For all [m|X, Y\in \text{obj C}] and [m|f\in C(X, Y)][br|]
+       [m|id_Y \circ f = f = f \circ id_X]]]]]]
+
+  [p|For a given morphism [m|f \in C(X, Y)], we often refer to [m|X] as the
+   [i|domain] of [m|f], and [m|Y] as the [i|codomain] of [m|f], taking the names
+   from functions in set theory.]
+
+  [section 'Commutative Diagrams'|
+    [p|We can visualize a category as being something like a graph. For example,
+    consider the below image representing a category.]
+
+    [[render dot|
+      digraph G {
+        bgcolor="transparent";
+        node [color="#a8a7ab" fontcolor="#a8a7ab"];
+        edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+        graph [layout=neato];
+
+        A [shape=circle pos="0,0!"];
+        B [shape=circle pos="1,1!"];
+        C [shape=circle pos="4,0!"];
+        D [shape=circle pos="1,-1!"];
+        E [shape=circle pos="3,-1!"];
+        
+        A:sw -> A:nw [label=q];
+        A:sw -> A:nw [label=p];
+        A -> B  [label=f];
+        B -> C  [label=g];
+        A -> C  [label=h];
+        A -> C  [label=i];
+        A -> D [label=j];
+        E:sw -> D:se  [label=k];
+        E:nw -> D:ne  [label=l];
+      
+      }]]
+
+    [p|This image leaves out some key details. For example, does [m|f \circ g = h]?
+     Which of [m|p] and [m|q] is the identity for [m|A]?. To combat some of
+     these issues, we often represent (parts of) a category through [i|commutative
+     diagrams]. Commutative diagrams are similar to the diagram above, with two
+     key differences:]
+
+    [ul|
+     [li|A single object may appear at multiple locations (i.e. multiple
+      different nodes may represent the same object)]
+     [li|We make the assumption that all paths between the same nodes are
+      equal. This is where the [i|commutative] part of commutative diagrams
+      comes from.]]
+
+    [ex|This diagram is guaranteed to be commutative, although note that we left
+     the morphism corresponding to [m|g\circ f] out of the diagram. 
+
+     [[render dot|
+      digraph G {
+        bgcolor="transparent";
+        node [color="#a8a7ab" fontcolor="#a8a7ab"];
+        edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+        graph [layout=neato];
+        
+        X [shape=none,pos="0,1.5!"];
+        Y1 [label=Y shape=none pos="1.5,1.5!"];
+        Y2 [label=Y shape=none pos="1.5,0!"];
+        Z [shape=none pos="3,0!"];
+        
+        X -> Y1  [label=f];
+        X -> Y2  [label=f];
+        Y1 -> Y2 [label=idY];
+        Y1 -> Z  [label=g];
+        Y2 -> Z  [label=g];
+      
+      }]]]
+
+    [ex|This diagram is commutative, only if [m|a= h\circ g] and [m|b=h\circ
+    g\circ f].
+
+     [[render dot|
+      digraph G {
+        bgcolor="transparent";
+        node [color="#a8a7ab" fontcolor="#a8a7ab"];
+        edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+        graph [layout=neato];
+        
+        X [shape=none,pos="0,1.5!"];
+        Y [shape=none pos="0,0!"];
+        Z [shape=none pos="1.5,0!"];
+        W [shape=none pos="1.5,1.5!"];
+        
+        X -> Y [label=f];
+        Y -> Z [label=g];
+        Z -> W [label=h];
+        Y -> W [label=a];
+        X -> W [label=b];
+      
+      }]]]]
+
+
+  [section 'Alternative Notations'|
+    Not all category theorists use the same notation. Sometimes, you might see:
+    [ul|
+     [li|[m|C] instead of obj C]
+     [li|[m|id] or [m|1_X] instead of [m|id_X]]
+     [li|[m|Hom_C(X, Y)] instead of [m|C(X, Y)]]
+     [li|[m|g\: f] instead of [m|g\circ f]]]]
+
+  [section 'Examples'|
+    [ex 'Category of Sets' ,for='Category'|
+     [ul|
+      [li| obj [b|Set] = some fixed universe of sets (more on this later)]
+      [li| [m|\textbf{Set}(X,Y) = \{f\subseteq X\times Y \mid f \text{ is single valued and total}\}].
+           In other words, the morphisms of [b|Set] are 
+           functions between sets.]
+      [li| [m|id_X = \{(x,x)\mid x\in X\}]]
+      [li| Composition of [m|f\in \textbf{Set}(X,Y)] and
+        [m|g\in\textbf{Set}(Y,Z)] is
+        [M| g \circ f = \{(x,z) \mid \exists y\in Y. (x,y)\in f\land (y,z)\in g\}]]]]
+
+    [ex 'Category of Preorders' ,for='Category'|
+     The category of preorders, written [b|Preord], consists of sets [m|P]
+     equipped with a pre-order [m|\sqsubseteq]. A pre-order is a binary relation
+     on [m|P] that is:
+
+     [ul|
+      [li reflexive|[m|\forall x\in P. x\sqsubseteq x]]
+      [li transitive|
+       [m|\forall x,y,z\in P. x\sqsubseteq y\land y\sqsubseteq z \implies x\sqsubseteq z]]]
+
+     [p|The morphisms between pre orders [m|(P_1,\sqsubseteq_1),
+      (P_2,\sqsubseteq_2)] are precisely the functions [m|\{f\in
+      \textbf{Set}(P_1,P_2)\mid f\text{ is monotone}\}]. A function is said to
+      be monotone when [m|\forall x,x'\in P_1. x \sqsubseteq_1 x'\implies f\:x
+      \sqsubseteq f\:x'].] 
+
+     [p|We can inherit the identities and composition directly from [b|Set], as
+      the set of montone functions contains the identity functions, and is closed
+      under composition.]]
+
+    [ex 'Category of Monoids' ,for='Category'|
+     The objects of the category of monoids are, as one might expect, monoids. A
+     monoid given by a set [m|M] and a binary operation [m|\cdot] on [m|M] which
+     is associative and has an identity element [m|e].
+
+     [p|The morphisms between two monoids [m|(M_1,\cdot_1,e_1)] and
+      [m|(M_2,\cdot_2,e_2)] are given by:}
+
+     [M|\{f\in \textbf{Set}(M_1,M_2)\mid f\: e_1 = f\: e_2 \land
+      \forall x,y\in M_1. f(x \cdot_1 y) = f\: x \cdot_2 f\: y\}]
+
+     [p|As with [b|Preord], we can inherit identities and composition from
+      [b|Set].]]]
+
+
+    [ex 'Category given by a Preorder' ,for='Category'|
+     Given any pre-ordered set [m|(P,\sqsubseteq)], we get a category [m|C_p] by
+     taking:
+     [M|
+      \begin{aligned}
+        \text{objects} \text{ obj }C_p &= P \\
+        \text{morphisms }C_p(x,y) &=
+        \left\{ \begin{array}{ll} 
+        \mathbf 1 & \text{if } x\sqsubseteq y \\
+        \emptyset & \text{otherwise}
+        \end{array}\right.
+      \end{aligned} ]
+
+     Where [m|\mathbf 1] represents some arbitrary one-element set. Given this
+     structure, composition and the identity morphism are uniquely determined.]
+
+    [ex 'Category given by a Monoid' ,for='Category'|
+     Given a monoid [m|(M,\cdot,e)], we can get a category [m|C_M] by taking
+     [ul|
+      [li objects|[m|\text{obj }C_M = 1 = \{0\}]]
+      [li morphisms| [m|C_M(0,0) = M]]
+      [li identities| [m|id_0 = e\in M = C_M(0,0)]]
+      [li composition| [m|f\in C_M(0,0)] and [m|g\in C_M(0,0)] is [m|g\cdot f\in
+       M = C_M(0,0)]]
+      ]
+     ]]]
+
+[section 'Properties in Categories'|
+  [section Isomorphism|
+    [p|In many mathematical domains, the set-theoretic notion of equality is too
+     restrictive, so we create new ones specific to the domain. In
+     [ref doc:math/structures/groups|Group Theory], we have the idea of isomorphic
+     groups. In
+     [ref doc:math/spaces/metric-topological-spaces|Topology], we have the idea
+     of homeomorphic topologies, and so on. The [i|Isomorphism] is an attempt to
+     generalize these notions of equality. A C-morphism [m|f : X \to Y] is an
+     isomorphism if there exists some [m|g : Y \to X] such that:]
+    
+    [[render dot|
+     digraph G {
+       bgcolor="transparent";
+       node [color="#a8a7ab" fontcolor="#a8a7ab"];
+       edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+       graph [layout=neato];
+       
+       X1 [label=X shape=none,pos="0,1.5!"];
+       X2 [label=X shape=none pos="1.5,0!"];
+       Y1 [label=Y shape=none pos="1.5,1.5!"];
+       Y2 [label=Y shape=none pos="3,0!"];
+       
+       X1 -> Y1 [label=f];
+       X2 -> Y2 [label=f];
+       Y1 -> X2 [label=g];
+       X1 -> X2 [label=idX];
+       Y1 -> Y2 [label=idY];
+     }]]
+     [p|is a commutative diagram. More formally, [m|f : X \to Y] is an isomorphism
+      whenever there exists some [m|g : Y \to X] with [m|g \circ f = id_X] and
+      [m|f \circ g = id_Y].]
+
+     [lemma 'Uniqueness of Inverses'|In the case where [m|f] is an isomorphism,
+      the corresponding [m|g] is uniquely determined, and so we write [m|f^{-1}]
+      for it. Further, we say that objects [m|X] and [m|Y] are [i|isomorphic] in
+      C, and we write [m|X \cong Y].
+
+      [proof|Suppose we have some [m|g, g'] for which both [m|g] and [m|g'] are
+      inverses of [m|f]. Then,
+
+      [M|
+      \begin{aligned}
+      g
+      &= g \circ id \\
+      &= (g \circ f) \circ g' \\
+      &= id \circ g'\\
+      &= g'
+      \end{aligned}]]]
+
+     [p|We now follow to investigate the structure of isomorphisms in our
+      example categories.]
+
+     [ex 'Set Isomorphism'|
+      [prop| A function [m|f\in \textbf{Set}(X,Y)] is an isomorphism in the
+       category [b|Set] iff [m|f] is a bijection, that is:
+       [ul|
+        [li Injective|[m|\forall x,x' \in X. f\: x = f\: x' \implies x = x']]
+        [li Surjective|[m|\forall y\in Y. \exists\in X. f\: x = y]]]
+
+       [proof|[#TODO|Write proof]]]]
+
+     [ex 'Monoid Isomorphisms'|
+      [#TODO|Write me! (lecture 2)]]
+
+     [ex 'Poset Isomorphisms'|
+      [#TODO|Write me! (lecture 2)]]
+
+    [p|Isomorphic objects are useful as objects which are equal (up to
+     isomorphism) will share interesting category theoretic properties. While
+     this has been formally proven for a particular definition of 'category
+     theoretic property', such a formalization is unnecessary for us now. We
+     will instead look at some examples.]]
+
+  [section 'Initial and Terminal Objects'|
+    [def 'Terminal Object'|
+     An object [m|T] of a category [m|C] is said to be [i|terminal] if for all
+     [m|X\in C]  there exists a unique [m|C]-morphism from [m|X] to [m|T], which
+     we write as [m|\langle\rangle_X : X \to T]. Written formally, this is:
+
+     [M|
+      \forall X\in C.
+      \exists \langle \rangle_X \in C(X,T).
+      \forall f \in C(X,T). f = \langle \rangle_X]
+
+     [p|Note that there are a couple variations on the notation. Some people
+      write [m|\langle\rangle_X], and some people write [m|!_X]. We stick to the
+      notation in the definition.]]
+
+    [ex ,for='Terminal Object'|
+     [ul|
+      [li|In the category [b|Set], any one-element set is terminal.]
+      [li|Any one element set has a unique pre order, which makes it terminal in
+       both Preord and Poset.]
+      [li|Any one element set has a unique monoid structure, which is terminal
+       in Mon.]
+      [li|When regarded as a category, a pre-ordered set [m|(P, \sqsubseteq)]
+       has a terminal object iff it has a greatest element [m|\top],
+       i.e. [m|\forall x\in P. x\sqsubseteq \top]]]]
+
+    [def 'Initial Object'|
+     [p|An object [m|0] of a category [m|C] is [i|initial] if, for all [m|X\in
+      C], there is a unique [m|C]-morphism [m|0\to X], which we write as
+      [[m|[]_X:0\to X]]. Written formally,
+
+      [[M|
+       \forall X\in C.
+       \exists []_X\in C(0,X).
+       \forall f \in C(0,X), f = []_X]]]]
+
+    [ex ,for='Initial Object'|
+     [ul|
+      [li|The empty set is initial in [b|Set]]
+      [li|Any one-element set has a uniquely determined monoid structure and is
+       initial in Mon. This means that one-elements monoids are both initial and
+       final. Such objects are sometimes called a [i|zero object].]
+      [li|A pre-ordered set [m|(P,\sqsubseteq)], regarded as a category [m|C_p],
+       has an initial object iff it has a least element [m|\bot], that is
+       [m|\forall x\in P. \bot\sqsubseteq x]]]
+     ]
+    ]
+
+  [section Duality|
+   [p|There is a close relation between initial and terminal objects: an object
+    is terminal if we can uniquely reach it from any object, while an object is
+    initial if we can uniquely reach any other object from it. They seem to be
+    sort of "inverses" or "opposites". As it turns out, we can formalise this
+    notion by defining the opposite of a category, from it the principle of duality.]
+
+   [def 'Opposite of a Category'|
+    Given a category [m|C], its [i|opposite category] [m|C^{op}] is defined by
+    reversing all morphisms, i.e. swapping their domain and codomain.
+    [ul|
+     [li|[m|\text{obj C}^{op}\triangleq \text{obj C}]]
+     [li|[m|C^{op}(X,Y)\triangleq C(Y,X)] for all objects [m|X] and [m|Y]]
+     [li|identity morphism on ]
+     [li|composition in [m|C^{op}] of [m|f\in C^{op}(X,Y)] and [m|g\in
+      C^{op}(Y,Z)] is given by the composition [m|f\circ g\in C(Z,X) =
+      C^{op}(X,Z)] in [m|C]]]
+      
+    [p|The necessary properties (unity, associativity) hold trivially in
+     [m|C^{op}] because they hold in [m|C].]]
+
+  [def 'Principle of Duality'|Each definition and proposition which can be
+   written in terms of commutative diagrams in a category [m|C] has a [i|dual],
+   which can be obtained by replacing the category [m|C] with [m|C^{op}].]
+
+  [prop |The notions of initial and terminal objects are
+   dual. [#TODO|expand with proof]]
+
+  [ex|[#TODO|Free monoid (initial) <-> terminal monoid]]]
+
+  [section 'Category Products and Coproducts'|
+    [def 'Binary Product'|In a category [m|C], a [i|product] for objects [m|X,Y\in
+     C] is a diagram [m|X\xleftarrow{\pi_1}P\xrightarrow{\pi_2}Y]. With the
+     property:
+    
+     [p|For all [m|X\xleftarrow{f}Z\xrightarrow{g}Y] in C, there is a unique
+      C-morphism [m|h:Z\to P] such that the following diagram commutes in [m|C]:]
+    
+     [[render dot|
+          digraph G {
+            bgcolor="transparent";
+            node [color="#a8a7ab" fontcolor="#a8a7ab"];
+            edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+            graph [layout=neato];
+            
+            Z [label=Z shape=none,pos="1.5,1.5!"];
+            X [label=X shape=none pos="0,0!"];
+            P [label=P shape=none pos="1.5,0!"];
+            Y [label=Y shape=none pos="3,0!"];
+            
+            Z -> X [label=f];
+            Z -> P [label=h];
+            Z -> Y [label=g];
+            P -> X [label=π₁];
+            P -> Y [label=π₂];
+          }]]
+    
+      [p|As a logical statement, this would read: In a category [m|C], a product
+       for objects [m|X,Y\in C] is a diagram
+       [m|X\xleftarrow{\pi_1}P\xrightarrow{\pi_2}Y] with the property:]
+    
+      [M|\forall (X\xleftarrow{\pi_1}P\xrightarrow{\pi_2}Y)\in C.
+      \exists! h: Z\to P. f = \pi_1\circ h \land g = \pi_2 \circ h]]
+    
+       
+    In category theory, we often use the prefix 'co' to denote the dual of some
+    concept or definition. It should be no surprise, then, that a coproduct of
+    two objects in a category [m|C] is their product in the category [m|C^{op}].
+
+    [p|[b|Notation] Assuming [m|C] has binary products, we write the binary
+    product of [m|X,Y\in C] as:]
+
+    [M|X\xleftarrow{\pi_1}X\times Y\xrightarrow{\pi_2}Y]
+
+    Furthermore, given the [m|X\xleftarrow{f}Z\xrightarrow{g}Y], the unique
+    [m|h:Z\to X\times Y] with [m|\pi_1 \circ h = f] and [m|\pi_2\circ h = g] is
+    written: 
+
+    [M|\langle f,g\rangle : Z \to X\times Y]
+
+    [ex ,for='Binary Product'|In [b|Set], category-theoretic products are given
+     by the usual cartesian product, with [m|\pi_1] and [m|\pi_2] selecting the
+     first and second element of a pair, respectively.
+
+     [M|
+     \begin{aligned}
+     X\times Y &= \{(x,y)\mid x \in X\land y\in Y\}\\
+     \pi_1(x,y) &= x\\
+     \pi_2(x,y) &= y\\
+     \langle f,g\rangle\: z &= (f\: z, g\: z)
+     \end{aligned}]
+
+     To show that this is indeed a product, it is sufficient to show
+     [m|(\pi_1\circ \langle f,g\rangle)\:z = \pi_1(\langle f,g\rangle\: z)=
+     \pi_1(f\:z,g\:z) = f\:z]. By similar argument we can show [m|\langle
+     f,g\rangle \circ \pi_2 = g].]
+
+    [ex ,for='Binary Product'|In [b|Preord], we can take the product of two
+     preorders [m|(P,\sqsubseteq_1)] and [m|(P,\sqsubseteq_2)] to be
+
+     [M|
+     \begin{array}{c}
+     (P_1\times P_2, \sqsubseteq ) \\
+     \text{where}\\
+     (x_1,x_2)\sqsubseteq (y_1,y_2)\iff (x_1\sqsubseteq_1y_1\land x_2\sqsubseteq_2y_2)
+     \end{array}]]
+
+    [ex ,for='Binary Product'| [#TODO| Monoid Example, Lecture 4]]
+
+    [ex ,for='Binary Product'| [#TODO| Preord Example, Lecture 4]]
+
+    [def 'Binary Coproduct'|Recall that for each categorical property, there
+     exists a dual notion. In the case of the binary product, an object [m|P\in
+     \text{obj }C] is a binary coproduct of [m|X,Y] if it is their product in
+     the category [m|C^{op}].
+
+     An alternative (equivalent) definition is that the coproduct of [m|X,Y\in
+     C], if it exists, is the diagram [m|X\xrightarrow{inl}X+Y\xleftarrow{inl}Y]
+     with the universal property:
+
+     [M|\forall (X\xrightarrow{f}Z\xleftarrow{g}Y).
+      \exists! (X+Y\xrightarrow{h}Z).
+      f = h\circ \text{inl} \land g = h\circ \text{inr}]]]
+
+    [ex ,for='Binary Coproduct'| [#TODO|Set Example, Lecture 4]]
+
+  [section 'Exponential Objects'|
+   [p|Given [m|X,Y\in \textbf{Set}], let [m|Y^X\in \textbf{Set}] denote the set
+    of all functions from [m|X] to [m|Y], i.e. ]
+
+   [M|Y^X = \textbf{Set}(X,Y) = \{f\subseteq X\times Y\mid f\text{ is single valued and total}\}]
+
+   [p|We then try and detemrin what kind of category theoretic object does this
+    corresponds to. One observation we might make is that function application
+    gives us a morphism in set. Specifically, it gives us the morphism.] 
+
+   [M|
+    \begin{aligned}
+    &app : Y^X\times X\to Y \\ 
+    &app (f,x) =  f(x)\\
+    \end{aligned}]
+
+   [p|We also get a second transformation, one that is more subtle and acts on
+    [i|morphisms]: Currying.]
+
+   [M|
+   \begin{aligned}
+    &\text{cur} : (Z\times X \to Y) \mapsto (Z\to Y^X)\\
+    &\text{cur}\:f\: z\: x = f(z,x)
+   \end{aligned}]
+
+   [M|\text{cur}\: f\{(z,g)\mid g = \{(x,y)\mid ((z,x),y)\in f\}]
+
+   [#TODO|Clean up investigation (Lecture 5)]
+
+   [def 'Exponential Object'|Suppose a category [m|C] has binary products. Then,
+    an [i|exponential] for [m|C]-objects [m|X] and [m|Y] is specified by an
+    object [m|Y^X] and a morphism [m|app:Y^X\times X\to Y] satisfying the
+    following: for all [m|Z\in C,f\in C(Z\times X,Y)], there exists a unique
+    [m|g\in C(Z,Y^X)] such that the following diagram commutes in [m|C]: 
+
+    [[render dot|
+          digraph G {
+            bgcolor="transparent";
+            node [color="#a8a7ab" fontcolor="#a8a7ab"];
+            edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+            graph [layout=neato];
+            
+            F [label="Z×X" shape=none,pos="0,0!"];
+            C [label="(Y^X)×X" shape=none pos="0,1.5!"];
+            Y [label=Y shape=none pos="2.5,1.5!"];
+            
+            F -> C [label="g×idX"];
+            C -> Y [label=app];
+            F -> Y [label=f];
+          }]]
+
+    [p|We often write [m|\text{cur }f] for the unique [m|g] with this property,
+     and [m|Y\to X] for [m|Y^X].]]
+
+   [corollary|There exists a bijection between the sets of morphisms:
+    [m|C(Z,Y^X)\cong C(Z\times X,Y)] given by: [#TODO|Understand this]]
+
+   [corollary|[m|(Y^X,app)] is a terminal object in the following category:
+    [ul|
+     [li objects|[m|(Z,f)] where [m|f\in C(Z\times X,Y)] ]
+     [li morphisms|[m|g:(Z,f)\to(Z',f')] are [m|g\in C(Z,Z')] such that
+      [m|f'\circ(g\times id_X) = f]]
+     [li|Compositions and identities as in [m|C]]]]
+
+   [p|So, when they exists, exponential objects are unique up to (unique)
+    isomorphism]]
+
+  [section 'Catesian Closed Categories'|
+   [p|Many of the properties that we have studied thus far are of some interest,
+    but it turns out that categories which have all of them have a special
+    interpretation: they can give a sematics to
+    [ref doc:computing/theory/logic-proof|intuitionistic Propositional
+    Logic (IPL)], or alternatively, the [ref doc:computing/theory/type-theory|
+    Simply Typed Lambda Calculus (STLC)]]
+
+   [def 'Cartesian Closed Category'|
+    [m|C] is a [i|Cartesian Closed Category] (CCC) if it is a cateogry with
+    terminal objects, binary products and exponentials of any pair of objects.]
+
+   [ex ,for='Cartesian Closed Category'|
+    [b|Set] is a CCC, as we have seen]
+
+   [ex ,for='Cartesian Closed Category'|
+    [b|Preord] is a CCC. We have already seen binary products and terminal
+    objects. The exponentials of [m|(P_1,\sqsubseteq_1)] and
+    [m|(P_2,\sqsubseteq_2)] is [m|(P_1\to P_2,\sqsubseteq)] where:
+
+    [M|
+      \begin{array}{}
+      P_1\to P_2 = \textbf{Preord}((P_1,\sqsubseteq_1),(P_2,\sqsubseteq_2))\\
+      f\sqsubseteq g \iff \forall x\in P_1. f\: x \sqsubseteq_2 g\: x 
+      \end{array}]]]]
+
+[section 'Category Encodings'|
+  [section 'Intuitionistic Propositional Logic'|
+   Lecture 06/07]
+  [section 'Simply Typed Lambda Calculus'|
+   Lecture 07/08/09]]
+
+[section 'Moving Between Categories'|
+  [section 'Functors'|Lecture 10]
+  [section 'Natural Transformations'|]
+  [section 'Adjuctions'|]
+  [section 'Categorising Adjoints'|]]
+
+[section 'Dependent Types'|Lecture 14]
+[section 'Yoneda Lemma'|Lecture 15]
+[section 'Computational Lambda Calculus and Monads'|]
+
+[bib|
+ [bibref|Lectures credit: Andrew Pitts]]
