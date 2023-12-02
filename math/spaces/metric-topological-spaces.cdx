@@ -1333,11 +1333,89 @@
     [[m|[0,1) \not\simeq (0,1)]]. Also, [m|\mathbb R^n \not\simeq \mathbb R] for
     [m|n > 1] and [m|S^1] is not homeomorphic to any subset of [m|\mathbb R]]
 
-  [section 'Higher Connectivity'|]
-  
-  ]
+  [section 'Higher Connectivity'|
+    [p|We were able to use path connectivity to determine that [m|\mathbb R] is
+    not homeomorphic to [m|\mathbb R^n] for [m|n > 1]. If we want to distinguish
+    general [m|\mathbb R^n] and [m|\mathbb R^m], we will need to generalize the
+    idea of path connectivity to higher connectivity. To understand higher
+    connectivity, it is useful to first reformulate the idea of path
+    connectivity. Recall that [m|S^0 = \{-1,1\} \simeq \{0,1\} \subseteq
+    \mathbb R] and that [[m|D^1 = [-1,1] \simeq [0,1] \subseteq \mathbb R]].
+    Thus, we can reforulate path connectivity as follows: [m|X] is
+    path-connected iff any continuous function [m|f^0:S^k \to X] extends to a
+    continuous [m|\gamma : D^1 \to X] where [m|\gamma|_{S^0} = f]. With this new
+    definition in hand, we can now generalize:]
 
-  [section 'Components'|]]
+    [def 'n-connectedness'|[m|X] is [i|n-connected] if for any [m|k\leq n], any
+     continuous [m|f:S^k\to X] extends to a continuous [m|F:D^{k+1}\to X] such
+     that [m|F|_{S^k} = f].]
+
+    [ex|For any point [m|p\in \mathbb R^n, \mathbb R^m\setminus \{p\}] is
+    m-connected iff [m|m\leq n - 2]. So, [m|\mathbb R^n\setminus \{p\}
+    \not\simeq \mathbb R^m\setminus \{q\}] unless [m|m=n].
+
+     [p|Unfortunately, to prove the first proposition, i.e. [m|\mathbb
+      R^n\setminus \{p\}] is m-connected iff [m|m\leq n - 2], we will need tools
+      from [ref doc:math/spaces/algebraic-topology|algebraic topology], which is
+      beyond the scope of these notes.]]]]
+
+  [section 'Components'|
+    [p|If a space is disconnected, we can intuitively divide the space into
+    different [i|components], each of which is connected. In fact, we can go
+    further, and divide a space into a set of maximally connected
+    components. Maximally connected here intuitively meaning that attempting to
+    add a point to a component will always render it disconnected. The specific
+    definition of component will depend on the type of connectivity.]
+
+    [section 'Path Components'|
+     [p|Defining path components is relatively easy. To do so, we first realize
+      that the relation of being connected by a path is, in fact, an equivalence
+      relation.]
+
+     [lemma|Define [m|x\sim y] if there exists a path from [m|x] to [m|y] in
+      [m|X]. Then, [m|\sim] is an equivalence relation.
+
+      [proof|
+       [ol|
+        [li|For any [m|x\in X], let [[m|\gamma_x : [0,1] \to X]] be [m|\gamma(t)
+         = x], the constant path. As this is a path from [m|x] to [m|x], we have
+         [m|x \sim x]]
+        [li|If [[m|\gamma : [0,1] \to X]] is a path from [m|x] to [m|y], then
+         [[m|\overline \gamma: [0,1] \to X]] by [m|t\mapsto \gamma(1-t)] is a
+         path from [m|y] to [m|x]. We therefore have [m|x\sim y \implies y\sim x]]
+        [li|If [m|\gamma_1] is a path from [m|x] to [m|y] and [m|\gamma_2] is a
+         path from [m|y] to [m|z], then [m|y_2 * y_1] define by:
+         [[M|
+           t\mapsto \left\{\begin{array}{ll}
+           \gamma_1(2t) & t\in [0, 1/2]\\
+           \gamma_2(2t - 1) & t \in [1/2, 1]
+           \end{array}
+           \right. ]]
+         is a path from [m|x] to [m|z]. So [m|x\sim y, y\sim z \implies x \sim z].]]]]
+
+     [p|With this lemma, we can now define path components:]
+
+     [def 'Path components'| Equvalence classes of the relation "[m|x\simeq y]
+      if there is a path from [m|x] to [m|y]" are [i|path components] of [m|X].]]
+
+    [section 'Connected Components'|
+     [p|Defining connected components with respect to regular connectivity is
+      slightly more involved. The key proposition need is as follows:]  
+
+     [prop|Suppose [m|Y_\alpha \subseteq X] is connected for all [m|\alpha \in
+      T] and that [m|\bigcap_{\alpha \in T} Y_\alpha \neq \emptyset]. Then [m|Y =
+      \bigcup_{\alpha\in T}Y|lapha] is connected.
+
+      [proof|Assume for contradiction that Y is not connected. Then, there exist
+       sets [m|A, B] which disconnect [m|Y]. Therefore, [m|A] ]] and [m|B] are
+       open in [m|Y], and [m|A = Y\cap A'], [m|B=Y\cap B'] for [m|A', B'] open
+       in [m|X]. Now, for any [m|\alpha], let:
+       [M|
+        A_\alpha = Y_\alpha \cap A = Y_\alpha \cap A', \qquad B_\alpha =
+       Y_\alpha \cap B = Y_\alpha \cap B']
+
+    ]
+]]
 
 [section 'Compactness'|
   [section 'Compactness'|]

@@ -204,9 +204,7 @@
       [li morphisms| [m|C_M(0,0) = M]]
       [li identities| [m|id_0 = e\in M = C_M(0,0)]]
       [li composition| [m|f\in C_M(0,0)] and [m|g\in C_M(0,0)] is [m|g\cdot f\in
-       M = C_M(0,0)]]
-      ]
-     ]]]
+       M = C_M(0,0)]]]]]]
 
 [section 'Properties in Categories'|
   [section Isomorphism|
@@ -328,7 +326,38 @@
        has an initial object iff it has a least element [m|\bot], that is
        [m|\forall x\in P. \bot\sqsubseteq x]]]
      ]
-    ]
+
+    [ex ,for='Initial object'|
+     The [i|free monoid] on a set [m|\Sigma] is [m|(List\: \Sigma, @, nil)] where
+     [ul|
+      [li List Σ| the set of finite lists of elements of [m|\Sigma]]
+      [li @| the list concatenation operator]
+      [li nil| the empty list]]
+     Now, define the function
+     [[M|
+      \begin{aligned}
+      &\eta_\Sigma\: :  \Sigma \to List\: \Sigma \\
+      &\eta_\Sigma\: a = [a] \qquad \text{(one-element list)}
+      \end{aligned}]]
+     [prop|For any monoid [m|(M,\cdot,e)] and function [m|f:\Sigma \to M], there
+     is a unique monoid morphism [m|\bar f \in \mathbf{Mon}((List \Sigma, @,
+     nil), (M, \cdot, e))]] making the following diagram commute in [b|Set]:
+     [[render dot|
+       digraph G {
+         bgcolor="transparent";
+         node [color="#a8a7ab" fontcolor="#a8a7ab"];
+         edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+         graph [layout=neato];
+         
+         S [label=Σ shape=none,pos="0,1.5!"];
+         lst [label=ListΣ shape=none pos="1.5,1.5!"];
+         M [label=M shape=none pos="1.5,0!"];
+         
+         S -> lst [label=ηΣ];
+         S -> M   [label=f];
+         lst -> M [label=f̅];
+       }]]
+     [#TODO|finish me!]]]
 
   [section Duality|
    [p|There is a close relation between initial and terminal objects: an object
@@ -483,7 +512,23 @@
 
    [M|\text{cur}\: f\{(z,g)\mid g = \{(x,y)\mid ((z,x),y)\in f\}]
 
-   [#TODO|Clean up investigation (Lecture 5)]
+   This gives us the following commutative diagram:
+
+   [[render dot|
+     digraph G {
+       bgcolor="transparent";
+       node [color="#a8a7ab" fontcolor="#a8a7ab"];
+       edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+       graph [layout=neato];
+       
+       F [label="Z×X" shape=none,pos="0,0!"];
+       C [label="(Y^X)×X" shape=none pos="0,1.5!"];
+       Y [label=Y shape=none pos="2.5,1.5!"];
+       
+       F -> C [label="g×idX"];
+       C -> Y [label=app];
+       F -> Y [label=f];
+     }]]
 
    [def 'Exponential Object'|Suppose a category [m|C] has binary products. Then,
     an [i|exponential] for [m|C]-objects [m|X] and [m|Y] is specified by an
@@ -492,26 +537,43 @@
     [m|g\in C(Z,Y^X)] such that the following diagram commutes in [m|C]: 
 
     [[render dot|
-          digraph G {
-            bgcolor="transparent";
-            node [color="#a8a7ab" fontcolor="#a8a7ab"];
-            edge [color="#a8a7ab" fontcolor="#a8a7ab"];
-            graph [layout=neato];
-            
-            F [label="Z×X" shape=none,pos="0,0!"];
-            C [label="(Y^X)×X" shape=none pos="0,1.5!"];
-            Y [label=Y shape=none pos="2.5,1.5!"];
-            
-            F -> C [label="g×idX"];
-            C -> Y [label=app];
-            F -> Y [label=f];
-          }]]
+      digraph G {
+        bgcolor="transparent";
+        node [color="#a8a7ab" fontcolor="#a8a7ab"];
+        edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+        graph [layout=neato];
+        
+        F [label="Z×X" shape=none,pos="0,0!"];
+        C [label="(Y^X)×X" shape=none pos="0,1.5!"];
+        Y [label=Y shape=none pos="2.5,1.5!"];
+        
+        F -> C [label="g×idX"];
+        C -> Y [label=app];
+        F -> Y [label=f];
+      }]]
 
     [p|We often write [m|\text{cur }f] for the unique [m|g] with this property,
-     and [m|Y\to X] for [m|Y^X].]]
+     and [m|Y\to X] for [m|Y^X].]
+
+    [p|[b|Intuition] This diagram captures the aforementioned two properties of
+     a function: For any function [m|h:X\to Y] and value [m|x], it is possible to
+     apply [m|f] to [m|x] and get a [m|y], and for any function on pairs
+     [m|f:(Z\times X)\to Y], and [m|z\in Z] it should be possible to curry it &
+     get a function [m|cur\: f: X\to Y]]]
 
    [corollary|There exists a bijection between the sets of morphisms:
-    [m|C(Z,Y^X)\cong C(Z\times X,Y)] given by: [#TODO|Understand this]]
+    [m|C(Z,Y^X)\cong C(Z\times X,Y)] given by:
+    [M|
+    \begin{aligned}
+    C(Z,Y^X) &\cong C(Z\times X,Y)\\
+    g &\mapsto app \circ (g \times id_x)\\
+    \text{cur f} &\leftarrow\!\shortmid f 
+    \end{aligned}]
+
+    We also get the following equalities:
+
+    [M|app \circ (cur\: f \times id_X) = f \\
+       g = cur(app\circ (g\times id_X))]]
 
    [corollary|[m|(Y^X,app)] is a terminal object in the following category:
     [ul|
@@ -535,8 +597,7 @@
     [m|C] is a [i|Cartesian Closed Category] (CCC) if it is a cateogry with
     terminal objects, binary products and exponentials of any pair of objects.]
 
-   [ex ,for='Cartesian Closed Category'|
-    [b|Set] is a CCC, as we have seen]
+   [ex ,for='Cartesian Closed Category'| [b|Set] is a CCC, as we have seen]
 
    [ex ,for='Cartesian Closed Category'|
     [b|Preord] is a CCC. We have already seen binary products and terminal
@@ -547,13 +608,228 @@
       \begin{array}{}
       P_1\to P_2 = \textbf{Preord}((P_1,\sqsubseteq_1),(P_2,\sqsubseteq_2))\\
       f\sqsubseteq g \iff \forall x\in P_1. f\: x \sqsubseteq_2 g\: x 
-      \end{array}]]]]
+      \end{array}]]
+
+   [ex, for='Cartesian Closed Category'|
+     (Non-example) The category [b|Mon] of monoids has a terminal objects and binary products,
+      but is [i|not] a ccc.
+
+     [proof|consider the following bijections between sets, where [m|1] denotes
+      a one-element set and the corresponding one-element monoid:
+
+      [M|
+      \begin{aligned} \mathbf{Set}(1, List 1)
+      &\cong \mathbf{Mon} (List 1, List 1)\\
+      &\cong \mathbf{Mon} (1\times List1, List 1)
+      \end{aligned}]
+
+      Since [m|Set(1, List 1)] is countably infinite, so is [m|\mathbf
+      Mon(1\times List 1, List 1)]. Since the one-element monoid is initial in
+      [b|Mon], for any [m|M\in \mathbf{Mon}] we have that [m|\mathbf{Mon}(1, M)]
+      has just one element and hence 
+      [M|\mathbf{Mon}(1\times List 1, List 1)\not\cong \mathbf{Mon}(1, M)]
+      Therfore, no [m|M] can be the exponential of the objects List 1 and List
+      1 in [b|Mon].]]]]
 
 [section 'Category Encodings'|
+  [section 'Introduction'|
+   [p|Recall [#TODO|add link] that any pre-ordered set [m|(P, \sqsubseteq)]
+    will give a corresponding category [m|C_P]. This category will be a CCC if
+    [m|P] has each of the following:
+    [ul|
+      [li a greatest element|[m|\top:\forall p\in P. p\sqsubseteq \top]. This gives
+       a terminal object.]
+      [li binary meets|[m|p\land q:\forall r\in P. r\sqsubseteq pland q \iff
+       r\sqsubseteq p \land r\sqsubseteq q]. This gives binary products.]
+      [li Heyting Implications|[m|p\to q:\forall r\in P. r\sqsubset p\to q\iff
+       r\land p \subseteq q]. This gives exponentias.]]]
+
+   [p|A simple example of such a pre-rder would be a boolean algebra [[m|([0,1],
+    \leq)]] with:
+    [ul|
+     [li|[m|\top = 1]]
+     [li|[m|p\land q = min(p,q)]]
+     [li|[m|p\to q = \left\{\begin{array}{ll}1 & \text{if } p \leq q\\ q &
+      \text{if } q < p\end{array}\right.]]]]]
+
   [section 'Intuitionistic Propositional Logic'|
-   Lecture 06/07]
+   [p|Intuitionistic Propositional Logic (IPL) is a relatively simple logic
+    which is nevertheless useful for demonstrating how we might categorically
+    model something. The version presented here will only consider the fragment
+    with conjunction and implication.]
+
+   [p|There are two types of values in IPL: the [b|Formulas] of IPL will use
+    symbols [m|\phi, \psi, \theta, ...] and have the following constructors:
+    [M|
+     \begin{aligned}
+     p,q,r,\ldots &\qquad \text{propositional identifiers}\\
+     true &\qquad \text{truth}\\
+     \psi\: \&\: \phi &\qquad \text{conjunction}\\
+     \psi\: ⇒\: \phi &\qquad \text{implication}\\
+     \end{aligned}]
+    The [b|Sequents] will use symbol [m|\Phi] and respresent a set of
+    assumptions. They and have the following structure:
+    [M|
+     \begin{aligned}
+     \diamond &\qquad \text{empty}
+     \\Phi,\phi &\qquad \text{element}
+     \end{aligned}]]
+
+   [p|All that's left is the entailment relation, [m|\vdash], where [m|\Phi\vdash \phi] is intended to mean "the
+    conjunction of formulas in [m|\Phi] implies the formula [m|\phi]." The relation is defined inductively via the
+    following rules:
+
+    [[M|
+    \begin{array}{c}
+     \begin{prooftree}
+     \AxiomC{}
+     \RightLabel{(AX)} \UnaryInfC{$\Phi,\phi\vdash \phi$}
+     \end{prooftree}
+     \qquad
+     \begin{prooftree}
+     \AxiomC{}
+     \RightLabel{(TRUE)} \UnaryInfC{$\Phi\vdash true$}
+     \end{prooftree}
+     
+     \\ \\
+     
+     \begin{prooftree}
+     \AxiomC{$\Phi\vdash \phi$}
+     \RightLabel{(WK)} \UnaryInfC{$\Phi,\psi\vdash \phi$}
+     \end{prooftree}
+     \qquad
+     \begin{prooftree}
+     \AxiomC{$\Phi\vdash \phi$}
+     \AxiomC{$\Phi,\phi\vdash \psi$}
+     \RightLabel{(CUT)}
+     \BinaryInfC{$\Phi\vdash psi$}
+     \end{prooftree}
+
+     \\ \\
+
+     \begin{prooftree}
+     \AxiomC{$\Phi\vdash \phi$}
+     \AxiomC{$\Phi\vdash \psi$}
+     \RightLabel{(&I)}
+     \BinaryInfC{$\Phi\vdash \phi\: \&\: \psi$}
+     \end{prooftree}
+     \qquad
+     \begin{prooftree}
+     \AxiomC{$\Phi\vdash \phi\:\&\:\psi$}
+     \RightLabel{(&E$_1$)}
+     \UnaryInfC{$\Phi\vdash\phi$}
+     \end{prooftree}
+     \qquad
+     \begin{prooftree}
+     \AxiomC{$\Phi\vdash \phi\:\&\:\psi$}
+     \RightLabel{(&E$_2$)}
+     \UnaryInfC{$\Phi\vdash\psi$}
+     \end{prooftree}
+
+     \\ \\ 
+     \begin{prooftree}
+     \AxiomC{$\Phi,\phi\vdash\psi$}
+     \RightLabel{(⇒I)}
+     \UnaryInfC{$\Phi\vdash \phi⇒ \psi$}
+     \end{prooftree}
+     \qquad
+     \begin{prooftree}
+     \AxiomC{$\Phi\vdash\phi\:⇒\:\psi$}
+     \AxiomC{$\Phi\vdash\phi$}
+     \RightLabel{(⇒E)}
+     \BinaryInfC{$\Phi\vdash\psi$}
+     \end{prooftree}
+
+    \end{array}]]]
+
+  [ex 'IPL proof'| Suppose that [m| \Phi = \diamond,\phi ⇒ \psi,\psi ⇒ \theta]. Then, the entailment [m|\Phi \vdash
+   \phi ⇒ \theta] is provable in IPL with the following proof-tree:
+
+   [#TODO| Add proof tree!]]
+
+  [section 'Semantics of IPL'|
+   [p|Suppose we have some cartesian closed pre-order [m|(P,\sqsubseteq)]. Given a function [m|M] assigning a meaning to
+    each propositional identifier [m|p] as an element [m|M(p)\in P], we can assign meanings to IPL formulae and sequents
+    as elements [m|M⟦\phi⟧, M⟦\Phi⟧\in P] by recursion on their structure:]
+
+   [M|
+    \begin{aligned}
+    M⟦p⟧ &= M(p)\\
+    M⟦true⟧ &= \top\\
+    M⟦\phi\:\&\:\psi⟧ &= M⟦\phi⟧\&M⟦\psi⟧\\
+    M⟦\phi⇒\psi⟧ &= M⟦\phi⟧\to M⟦\psi⟧\\\\
+    M⟦\diamond ⟧ &= \top\\
+    M⟦\Phi,\phi⟧ &= M⟦\Phi⟧\land M⟦\psi⟧
+    \end{aligned}]
+
+   [prop 'Soundness Theorem'|
+     If [m|\Phi\vdash \phi] is provable from the rules of IPL, then [m|M⟦\Phi⟧\sqsubseteq M⟦\phi⟧] holds in any cartesian
+     closed pre-order.
+     [proof|[#TODO|]]]
+
+   [prop|Peirce's Law [m|\diamond \vdash((\phi ⇒ \psi) ⇒ \phi) ⇒ \phi] is not provable in IPL.
+
+    [proof|Assume that [m|\diamond \vdash((\phi ⇒ \psi) ⇒ \phi) ⇒ \phi] were provable in IPL. By the soundness theorem,
+     we would then have:
+     [M|\top = M⟦\diamond ⟧\sqsubseteq M⟦((\phi⇒\psi)⇒\phi)⇒\phi⟧]
+     But in the cartesian closed partial order [[m|([0,1],\leq)]], taking [m|M(p) = ½] and [m|M(q) = 0], we get:
+     [M|
+     \begin{aligned}
+      M⟦((p⇒q)⇒p)⇒p⟧
+      &= ((½ \to 0) \to ½) \to ½ \\
+      &= (0 \to ½) \to ½ \\
+      &= 1 \to ½\\
+      &= ½\\
+      & \not\geq 1
+      \end{aligned}]]]
+
+   [prop 'Completeness Theorem'|Given [m|\Phi,\phi] if, for all cartesian closed pre-orders [m|(P,\sqsubseteq)] and all
+    interpretations [m|M] of the propositional identifiers as elements of [m|P], it is the case that
+    [m|M⟦\Phi⟧\sqsubseteq M⟦\psi⟧] holds in [m|P], then [m|\Phi\vdash\phi] is provable in IPL.
+
+    [proof|Define
+     [M|
+     \begin{aligned}
+     P &\triangleq \{\text{formulas of IPL}\}\\
+     \psi\sqsubseteq \phi &\triangleq \diamond,\phi\vdash\psi\text{ is provable in IPL}
+     \end{aligned}]
+
+    [p|Then one can show that [m|(P,\sqsubseteq)] is a cartesian closed pre-ordered set. For this [m|(P,\sqsubseteq)],
+     taking [m|M] to be [m|M(p) = p], one can show that [m|M⟦\Phi⟧\sqsubseteq M⟦\phi⟧] holds in [m|P] iff
+     [m|\Phi\vdash\phi] is provable in IPL.]]]]]
+
+
   [section 'Simply Typed Lambda Calculus'|
-   Lecture 07/08/09]]
+           
+   [M|T ::= unit \mid G \mid A\times B \mid A\to B ]
+   Where [m|G] represents en element of some set of 'ground' types.
+
+   [M|e ::= c^A \mid x \mid () \mid (e_1,e_2)
+   \mid \text{fst } t\mid \text{snd } t\mid \lambda x:A.e \mid e_1\:e_2]
+   Where
+   [ul|
+    [li|[m|c^A] represents constants of some type [m|A]]
+    [li|[m|x] represents variables]]
+
+   [#TODO|Finish specifying STLC typing relation.]
+
+   [p|Given a cartesian closed category [m|\mathbf C] and a function [m|M] mapping ground types [m|G] to objects
+    [m|M(G) \in \mathbf C], we can extend this to a function [m|M⟦_⟧: A \to \mathbf C] and [m|M⟦_⟧ : \Gamma \to \mathbf
+    C] from STLC types and typing environments to [b|C]-objects, by recursion on the structure of [m|A]
+
+    [M|
+     \begin{aligned}
+     M⟦G⟧ &= M(G) \\
+     M⟦unit⟧ &= 1 \\
+     M⟦A\times B⟧ &= M⟦A⟧ \times M⟦B⟧\\
+     M⟦A\to B⟧ &= M⟦A⟧ \to M⟦B⟧\\
+     \\
+     M⟦\diamond⟧ &= 1\\
+     M⟦\Gamma,x:A⟧=M⟦\Gamma⟧\times M⟦A⟧
+     \end{aligned}]
+]
+
+   Lecture 08/09]]
 
 [section 'Moving Between Categories'|
   [section 'Functors'|Lecture 10]
