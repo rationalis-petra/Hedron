@@ -826,14 +826,239 @@
      \\
      M⟦\diamond⟧ &= 1\\
      M⟦\Gamma,x:A⟧=M⟦\Gamma⟧\times M⟦A⟧
-     \end{aligned}]
-]
+     \end{aligned}]]
 
    Lecture 08/09]]
 
 [section 'Moving Between Categories'|
-  [section 'Functors'|Lecture 10]
-  [section 'Natural Transformations'|]
+  [section 'Functors'|
+   [def Functor|Given two categories [m|C] and [m|D], a functor [m|F:C\to D] is specified by:
+    [ul|
+     [li|A function [m|obj\: C \to obj\: D] whose value at [m|X] is written [m|F\:X]]
+     [li|For all [m|X,Y\in C], a function [m|C(X,Y)\to D(F\: X, F\: Y)] whose value at [m|f:X\to Y] is written [m|F\: F:
+      F\: X \to F\: Y]]]
+     These functions are required to preserve composition and identity morphisms: 
+     [M|
+      \begin{aligned}
+      F(g\circ f) &=F\:g \circ F\:f\\
+      F(id_X) &= id_{F\:X} \end{aligned}]]
+
+    [ex 'Forgetful Functor', for='Functor'|
+     [p|We have the forgetful functor [m|U:\mathbf{Mon}\to\mathbf{Set}]
+      [M|
+       \begin{aligned}
+       U(M,\cdot,e) &= M\\
+       U((M_1,\cdot_1,e_1)\xrightarrow{f}(M_2,\cdot_2,e_2)) &= M_1\xrightarrow{f}M_2
+       \end{aligned}]]
+
+      [p|Similar functions (also denoted [m|U]) can be defined for other 'sets with structure', also denoted [m|U]. For
+      example, [m|U:\mathbf{Preord}\to\mathbf{Set}]]]
+
+   [ex 'Free Monoid Functor' ,for='Functor'|
+    Given some [m|\Sigma\in\mathbf{Set}], we can define the free monoid functor [m|F], where:
+
+    [p|Given a set [m|\Sigma], [m|F] produces the free monoid of that set:
+    [M|F\:\Sigma = (List\:\Sigma,@,nil)]]
+
+    [p|Given a function [m|f:\Sigma_1\to \Sigma_2], we get a function by mapping [m|f] over lists:]
+    [[M|F\:f[a_1,\ldots,a_n] = [f\:a_1,\ldots f\:a_n] ]]]
+
+   [ex ,for='Functor'|
+    If [m|C] is a category with binary products and [m|X\in C], then the function [m|(\_)\times X:obj\:C\to obj\:C]
+    extends to a functor [m|(\_)\times X:C\to C] mapping morphisms [m|f:Y\to Y'] to:
+
+    [M|f\times id_X:Y\times X\to Y'\times X]
+
+    [p|We know that this is a functor, as:]
+    [M|
+     \begin{aligned}
+     id_X\times id_Y &= id_{X\times Y}\\
+     (f'\circ f)\times id_X &= (f'\times id_X)\circ (f\times id_X)
+     \end{aligned}]
+    [#TODO|Link exercises (sheet 2, question 1c)]]
+   [ex ,for='Functor'|
+    If [m|C] is a cartesian closed category and [m|X\in C], then the function [m|(\_)^X:obj\: C\to obj\: C] extends to a
+    functor [m|(\_)^X:C\to C] mapping morphisms [m|f:Y\to Y'] to:
+
+    [M|f^X\triangleq cur(f\circ app):Y^x\to Y'^X]
+    This is a functor, as:
+    [M|\begin{aligned}
+        (id_Y)^X &= id_{Y^X}\\
+        (g\circ f)^X &= g^X\circ f^X
+       \end{aligned}]
+    [#TODO|Add ref to Exercise sheet 3, question 4]]
+
+
+   [section 'Contravariance'|
+    [def 'Contravariant Functor'|
+     Given categories [m|C] and [m|D], a functor [m|F:C^{op}\to D] is called a [i|contravariant functor] from [m|C] to
+     [m|D].]
+    
+    [lemma|Contravariant functors reverse the order of composition,
+     i.e.
+     [M|F(g\circ_C f) = F\:f\circ_D F\:g]
+    
+     [proof|Suppose we have some [m|X\xrightarrow{f} Y\xrightarrow{g}Z] in [m|C]. Then, it follows that
+     [m|X\xleftarrow{f}Y\xleftarrow{g}Z] in [m|C^{op}]. Therefore, [m|F\:X\xleftarrow{F\:f}F\:Y\xleftarrow{F\:g}F\:Z] in
+     [m|D].]]
+    
+    [p|Where it is ambiguous, a functor [m|f:C\to D] may be called a [i|covariant functor] from [m|C] to [m|D].]
+
+    [ex ,for='Contravariant Functor'|
+     If [m|C]is a cartesian closed category and [m|X\in C], then the function [m|X^{(\_)}:obj\: C\to obj\: C] extends to
+     a functor [m|X^{(\_)}:C^{op}\to C] mapping morphisms [m|f:Y\to Y'] to:
+
+     [M|X^f\triangleq cur(app\circ (id_{X^(Y')}\times f)):X^{Y'}\to X^Y]
+
+     [p|This is a functor, as
+      [M|\begin{aligned}
+        X^{id_Y} &= id_{X^Y}\\
+        X^{g\circ f} &= X^f\circ X^g
+        \end{aligned}]
+      [#TODO|add link Ex. sheet 3, question 5]]]]
+
+   [p|Note that since a functor [m|F:C\to D] preserves domains, codomains, composition and identity morphisms.
+    Therefore, it preserves several properties, notably:
+    [ul|
+     [li|It sends commutative diagrams in [m|C] to commutative diagrams in [m|D].]
+     [li|It sends isomorphisms in [m|C] to isomorphisms in [m|D], i.e. [m|F(f^{-1}) = (F\:f)^{-1}]]]]
+
+   [def 'Functor Composition'|Given two functors [m|F:C\to D] and [m|G:D\to E], we can tae the composition [m|G\circ
+    F:C\to E] where [m|(G\circ F) \:X = G (F \: X)]. As both [m|F] and [m|G] preserve acomposition and identity
+    morphisms, so does [m|G\circ F].]
+
+   [def 'Identity Functor'|For any category [m|C], we can define the identity functor [m|id_C:C\to C], where [m|id_C\: x
+   = x]]]
+
+  [section 'Category of Small Categories'|
+   [p|In the previous section, we defined the notion of a functor, functor composition and identity functors. These
+    definitions have the following properties:
+    [M|\begin{aligned}
+       &\text{associativity} &H\circ (G\circ F) = (H\circ G) \circ F\\
+       &\text{unity} & id_D\circ F = F = F \circ id_C
+       \end{aligned}]]
+   [p|This means that we can form a category whose objects are categories, and whose morphisms are functors. However, as
+    with set theory, we have to be careful about self-reference, i.e. just as we cannot form the "set of all sets" we
+    also cannot form the "category of all categories". Therefore, we will look to the axioms of set theory for
+    inspiration. One relevant construction in set theory is the notion of a [i|Grothendieck Universe].]
+
+   [def 'Grothendieck Universe'|A [i|Grothendieck Universe] [m|\mathcal U] is a set of sets satisfying:
+    [ul|
+     [li|[m|X\in Y\in \mathcal U \implies X \in \mathcal U]]
+     [li|[m|X,Y\in\mathcal U \implies \{X,Y\}\in\mathcal U]]
+     [li|[m|X\in\mathcal U\implies \mathcal P\:X\triangleq \{Y\mid Y\subseteq X\}\in \mathcal U]]
+     [li|[m|X\in\mathcal U \land F\in\mathcal U^X\implies \{y\mid\exists x\in X. y\in F\:X\}\in \mathcal U]
+      (This means that [m|X,Y\in\mathcal U\implies X\times Y\in\mathcal U\land Y^X\in\mathcal U])]]
+
+    Note: the above properties are satisfied by the set [m|\emptyset], so we will always assume [m|\mathbb N\in\mathcal U]]
+
+   [p|With the notion of a Grothendieck Universe in hand, we can revisit our defintion of [m|\mathbf{Set}]. First, we
+    assume that there exists an infinite sequence [m|\mathcal U_0\in \mathcal U_1\in \ldots] of larger and larger
+    Grothendieck Universes. Then, define the category [m|\mathbf{Set}_n] as the category whose objects are all sets in
+    [m|\mathcal U_n] and with morphisms [m|\mathbf{Set}_n(X,Y) = Y^X], i.e. all functions from [m|X] to [m|Y]. From now
+    on, the unnumberd set [m|\mathbf{Set}] is taken to be shorthand for [m|\mathbf{Set}_0].]
+
+  [def 'Small and Large Sets'|The objects of [m|\mathbf{Set}_0] are called [i|small sets]. Other sets we call [i|large].]
+
+  [def 'Locally Small'|A category [m|C] is said to be [i|locally small] if, for all [m|X,Y\in C], [m|C(X,Y)\in \mathbf{Set}]]
+
+  [def 'Small Category'|A category [m|C] is said to be [i|small] if it is locally small and [m|obj\: C\in \mathbf{Set}]]
+
+  [ex ,for='Locally Small'|The categories [b|Set], [b|Preord] and [b|Mon] are all locally small (but not small).]
+
+  [def 'Category of Small Categories'| The [i|Category of Small Categories] (denoted [b|Cat]) is defined by:
+   [ul|
+    [li|The Objects are small categories]
+    [li|The morphisms [m|\mathbf{Cat}(C,D)] are the functors [m|C\to D]]
+    [li|Composition and identity morphisms are inherited from functors.]]]
+
+  [prop|Cat is a locally small cateogry]
+
+  [section 'Features of Cat'|
+   [p|[b|Cat] has a terminal object, which is the category with one object and one morphism (the identity morphism for that
+    object)]
+
+   [p|[b|Cat] has binary products, as follows: given two cateogories [m|C,D\in\mathbf{Cat}], their product
+    [m|C\xleftarrow{\pi_1} C\times D \xrightarrow{\pi_2} D] is define as follows:
+    [ul|
+     [li|The objects of [m|C\times D] are pairs [m|(X,Y)] where [m|X\in C] and [m|Y\in D]]
+     [li|The morphisms [m|(X,Y) \to (X',Y')] in [m|C\times D] are pairs [m|(f,h)] where [m|f\in C(X,X')] and [m|g\in
+      D(Y,Y')]]
+     [li|Composition and identity morphisms are given by those of [m|C] (in the first component) and [m|D] (in the
+      second component)]
+     [li|The Projection functors [m|\pi_1] and [m|\pi_2] are given by taking the first (or second) component of both
+      objects and morphisms.]]]
+
+   [p|Cat not only has finite products, it is also cartesian closed! The exponentials of [b|Cat] are called [i|functor
+    categories], but in order to define them, we will need a concept called [i|natrual transformations], which are a
+    notion of morphisms between functors.]]]
+
+  [section 'Natural Transformations'|
+   [p|For a motivating example, fix some [m|S\in \mathbf{Set}] and consider the two functors [m|F,G:\mathbf{Set} \to
+    \mathbf{Set}] defined by the equations:
+    [M|\begin{aligned}
+       F\:X = S\times X\\
+       F\:f = id_S\times f\\
+       \\
+       G\:X = X\times S\\
+       G\:f = f\times id_S
+       \end{aligned}]]
+
+   [p|It is apparent that for each [m|X\in\mathbf{Set}], there is an isomorphism (bijection) [m|\theta_X:F\:X\cong G\:X]
+    in [b|Set] given by [m|\langle\pi_2, \pi_1\rangle: S\times X \to X\times S]. Further, this isomorphism can be
+    'composed' with any function [m|f]. In other words, the following is a commutative diagram in [b|Set] for any
+    [m|f,X,Y]:
+    [[render dot|
+      digraph G {
+        bgcolor="transparent";
+        node [color="#a8a7ab" fontcolor="#a8a7ab"];
+        edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+        graph [layout=neato];
+
+        S×X [shape=none pos="0,2!"];
+        X×S [shape=none pos="2,2!"];
+        S×Y [shape=none pos="0,0!"];
+        Y×S [shape=none pos="2,0!"];
+        S×X -> X×S  [label="⟨π₁,π₂⟩"];
+        S×X -> S×Y  [label="id×f    "];
+        S×Y -> Y×S  [label="⟨π₁,π₂⟩"];
+        X×S -> Y×S  [label="f×id    "];
+        }]]
+
+    This square commutes because for all [m|s\in S,x\in X]
+
+    [M|\begin{aligned}
+        \langle \pi_2,\pi_1\rangle((id\times f) (s,x))
+        &= \langle pi_2,pi_1\rangle (s, f\:x)\\
+        &= (f\: x,s)\\
+        &= (f\times id)(x,s)\\
+        &= (f\times id)(\langle \pi_2,\pi_1\rangle (s,x))
+       \end{aligned}]
+    Generalising this, we can arrive at the definition of a natural transformation.]
+
+   [def 'Natural Transformation'|Given categories and functors [m|F,G:C\to D], a [i|natural transformation] [m|\theta:
+    F\to G] is a family of [m|D]-morphisms [m|\theta_X\in D(F\: X,G\: X)], one for each [m|X\in C], such that for all
+    [m|C]-morphisms [m|f:X\to Y], the diagram:
+    [[render dot|
+      digraph G {
+        bgcolor="transparent";
+        node [color="#a8a7ab" fontcolor="#a8a7ab"];
+        edge [color="#a8a7ab" fontcolor="#a8a7ab"];
+        graph [layout=neato];
+
+        A [shape=none label="F X" pos="0,2!"];
+        B [shape=none label="G X" pos="2,2!"];
+        C [shape=none label="F Y" pos="0,0!"];
+        D [shape=none label="G Y" pos="2,0!"];
+        A -> B  [label="θX"];
+        A -> C  [label="F f    "];
+        B -> D  [label="θY"];
+        C -> D  [label="G f    "];
+        }]]
+    Commutes in [m|D], i.e. [m|\theta_Y\circ F\: f=G\: f \circ \theta_X]]
+
+    [ex ,for='Natural Transformation'|]
+  ]
   [section 'Adjuctions'|]
   [section 'Categorising Adjoints'|]]
 
